@@ -1,0 +1,26 @@
+package com.housematch.user.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
+public class UserDto {
+
+	@NonNull
+	private String id;
+	@NonNull
+	private String pw;
+	@NonNull
+	private String name;
+	@NonNull
+	private String email;
+	// DB에서 자동 생성
+	private String regTime;
+
+}
