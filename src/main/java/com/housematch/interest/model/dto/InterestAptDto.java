@@ -1,4 +1,4 @@
-package com.housematch.interest.model;
+package com.housematch.interest.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,10 +8,10 @@ import lombok.NonNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class InterestDongDto {
+public class InterestAptDto {
 
 	@NonNull
 	private String id;
 	@NonNull
-	private String dongCode;
+	private String aptCode;
 }

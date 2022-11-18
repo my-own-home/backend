@@ -1,4 +1,4 @@
-package com.housematch.house.model;
+package com.housematch.house.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

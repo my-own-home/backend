@@ -1,4 +1,4 @@
-package com.housematch.admin.model;
+package com.housematch.user.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,16 +10,16 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class QuestionDto {
+public class UserDto {
 
-	private int no; // 자동 생성
 	@NonNull
-	private String uid;
+	private String id;
 	@NonNull
-	private String subject;
+	private String pw;
 	@NonNull
-	private String content;
+	private String name;
+	@NonNull
+	private String email;
 	private String regTime; // 자동 생성
-	private String upTime; // 자동 생성
 
 }

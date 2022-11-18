@@ -1,4 +1,4 @@
-package com.housematch.admin.model;
+package com.housematch.admin.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
