@@ -33,7 +33,7 @@
 
 	<insert id="insertQuestion" parameterType="QuestionDto">
 		insert into question(user_id, title, content, register_time)
-		values (#{uid}, #{title}, #{content}, now())
+		values (#{uid}, #{subject}, #{content}, now())
 	</insert>
 
 	<update id="updateQuestion" parameterType="QuestionDto">

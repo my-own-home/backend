@@ -14,6 +14,6 @@ public interface InterestDongService {
 
 	boolean removeInterestDong(InterestDongDto interestDongDto);
 
-	PageNavigation makePageNavigation(Map<String, String> map);
+	PageNavigation makePageNavigation(Map<String, Object> map);
 	
 }

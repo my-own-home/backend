@@ -36,7 +36,7 @@
 	
 	<select id="getTotalInterestDongCount" parameterType="map" resultType="int">
 		select count(*)
-		from board
+		from interest_dong
 	</select>
 
 </mapper>

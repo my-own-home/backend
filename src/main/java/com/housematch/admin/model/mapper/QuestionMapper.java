@@ -20,5 +20,5 @@ public interface QuestionMapper {
 
 	int deleteQuestion(int no);
 	
-	int getTotalQustionCount(Map<String, Object> map);
+	int getTotalQuestionCount(Map<String, Object> map);
 }

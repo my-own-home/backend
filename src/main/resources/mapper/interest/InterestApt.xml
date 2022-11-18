@@ -35,8 +35,8 @@
 	</delete>
 	
 	<select id="getTotalInterestAptCount" parameterType="map" resultType="int">
-		select count(article_no)
-		from board
+		select count(*)
+		from interest_apt
 	</select>
 	
 </mapper>

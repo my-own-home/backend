@@ -8,7 +8,7 @@ import com.housematch.util.PageNavigation;
 
 public interface QuestionService {
 
-	List<QuestionDto> getQuestionList();
+	List<QuestionDto> getQuestionList(Map<String, Object> conditions);
 
 	QuestionDto getQuestion(int no);
 
@@ -18,6 +18,6 @@ public interface QuestionService {
 
 	boolean removeQuestion(int no);
 
-	PageNavigation makePageNavigation(Map<String, String> map) throws Exception;
+	PageNavigation makePageNavigation(Map<String, Object> map);
 	
 }

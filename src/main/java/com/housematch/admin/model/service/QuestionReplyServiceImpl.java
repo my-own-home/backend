@@ -20,6 +20,11 @@ public class QuestionReplyServiceImpl implements QuestionReplyService {
 	public List<QuestionReplyDto> getQuestionReplyList(int qNo) {
 		return questionReplyMapper.selectQuestionReplyList(qNo);
 	}
+	
+	@Override
+	public QuestionReplyDto getQuestionReply(int qNo) {
+		return questionReplyMapper.selectQuestionReply(qNo);
+	}
 
 	@Override
 	public boolean addQuestionReply(QuestionReplyDto questionReplyDto) {

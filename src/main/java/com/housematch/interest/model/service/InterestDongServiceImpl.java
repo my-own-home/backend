@@ -41,12 +41,12 @@ public class InterestDongServiceImpl implements InterestDongService {
 	}
 
 	@Override
-	public PageNavigation makePageNavigation(Map<String, String> map) {
+	public PageNavigation makePageNavigation(Map<String, Object> map) {
 		PageNavigation pageNavigation = new PageNavigation();
 
 		int naviSize = SizeConstant.NAVIGATION_SIZE;
 		int sizePerPage = SizeConstant.LIST_SIZE;
-		int currentPage = Integer.parseInt(map.get("pgno"));
+		int currentPage = (int) map.get("pgno");
 
 		pageNavigation.setCurrentPage(currentPage);
 		pageNavigation.setNaviSize(naviSize);

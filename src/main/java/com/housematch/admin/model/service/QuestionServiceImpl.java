@@ -21,7 +21,7 @@ public class QuestionServiceImpl implements QuestionService {
 	private QuestionMapper questionMapper;
 
 	@Override
-	public List<QuestionDto> getQuestionList() {
+	public List<QuestionDto> getQuestionList(Map<String, Object> conditions) {
 		return questionMapper.selectQuestionList();
 	}
 
@@ -46,22 +46,18 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public PageNavigation makePageNavigation(Map<String, String> map) throws Exception {
+	public PageNavigation makePageNavigation(Map<String, Object> map){
 		PageNavigation pageNavigation = new PageNavigation();
 
 		int naviSize = SizeConstant.NAVIGATION_SIZE;
 		int sizePerPage = SizeConstant.LIST_SIZE;
-		int currentPage = Integer.parseInt(map.get("pgno"));
+		int currentPage = (int) map.get("pgno");
 
 		pageNavigation.setCurrentPage(currentPage);
 		pageNavigation.setNaviSize(naviSize);
 		Map<String, Object> param = new HashMap<String, Object>();
-		String key = map.get("key");
-		if ("userid".equals(key))
-			key = "user_id";
-		param.put("key", key == null ? "" : key);
 		param.put("word", map.get("word") == null ? "" : map.get("word"));
-		int totalCount = questionMapper.getTotalQustionCount(param);
+		int totalCount = questionMapper.getTotalQuestionCount(param);
 		pageNavigation.setTotalCount(totalCount);
 		int totalPageCount = (totalCount - 1) / sizePerPage + 1;
 		pageNavigation.setTotalPageCount(totalPageCount);

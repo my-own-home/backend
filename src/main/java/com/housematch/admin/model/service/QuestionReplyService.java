@@ -7,6 +7,8 @@ import com.housematch.admin.model.dto.QuestionReplyDto;
 public interface QuestionReplyService {
 	
 	List<QuestionReplyDto> getQuestionReplyList(int qNo); 
+	
+	QuestionReplyDto getQuestionReply(int qNo); 
 
 	boolean addQuestionReply(QuestionReplyDto questionReplyDto);
 

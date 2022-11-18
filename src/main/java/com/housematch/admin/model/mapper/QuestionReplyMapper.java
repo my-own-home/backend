@@ -10,6 +10,8 @@ import com.housematch.admin.model.dto.QuestionReplyDto;
 public interface QuestionReplyMapper {
 
 	List<QuestionReplyDto> selectQuestionReplyList(int qNo); // 질문 번호
+	
+	QuestionReplyDto selectQuestionReply(int qNo);
 
 	int insertQuestionReply(QuestionReplyDto questionReplyDto);
 
