@@ -20,7 +20,6 @@ public class UserDto {
 	private String name;
 	@NonNull
 	private String email;
-	// DB에서 자동 생성
-	private String regTime;
+	private String regTime; // 자동 생성
 
 }

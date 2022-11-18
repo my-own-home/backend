@@ -10,15 +10,13 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class AptInfoDto {
-
-	private long aptCode;
-	@NonNull
-	private String aptName;
+public class LocationDto {
+	
 	@NonNull
 	private String dongCode;
-	private int buildYear;
-	private String fullRoadAddress;
-	private String fullJibunAddress;
-	private String lat, lng;
+	private String sido;
+	private String gugun;
+	private String dong;
+	private String lat;
+	private String lng;
 }
