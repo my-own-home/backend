@@ -10,13 +10,12 @@ import lombok.NoArgsConstructor;
 public class AptDealRecordDto {
 
 	private long id;
-	private long apt_code;
-	private String deal_amount;
-	private int deal_year;
-	private int deal_month;
-	private int deal_day;
+	private long aptCode;
+	private String dealAmount;
+	private int dealYear;
+	private int dealMonth;
+	private int dealDay;
 	private String area;
 	private String floor;
-	private String cancel_deal_type;
 
 }

@@ -23,12 +23,13 @@
 		<result column="apt_facilities" property="facilitiesStr"/>
 	</resultMap>
 	
-	<select id="selectApt" parameterType="long" resultMap="AptDetailDto">
+	<select id="selectAptDetail" parameterType="long" resultMap="AptDetailDtoMap">
 		select apt_code, corridor_type, heating_type, dong_cnt, household_cnt,
 		constructor, implementer, use_approval_date, food_recycle, management_office_tel,
 		management_office_fax, cctv_cnt, ground_parking_cnt, underground_parking_cnt,
 		total_parking_cnt, apt_facilities
 		from apt_detail
+		where apt_code = #{aptCode}
 	</select>
 
 </mapper>

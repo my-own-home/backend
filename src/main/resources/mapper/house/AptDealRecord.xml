@@ -12,12 +12,12 @@
 		<result column="deal_day" property="dealDay"/>
 		<result column="area" property="area"/>
 		<result column="floor" property="floor"/>
-		<result column="cancel_deal_type" property="cancel_deal_type"/>
 	</resultMap>
 	
-	<select id="selectAptDealRecordList" parameterType="int" resultMap="AptDealRecordDtoMap">
+	<select id="selectAptDealRecordList" parameterType="long" resultMap="AptDealRecordDtoMap">
 		select id, apt_code, deal_amount, deal_month, deal_day, floor, cancel_deal_type
 		from apt_deal_record
+		where apt_code = #{aptCode}
 	</select>
 
 </mapper>

@@ -7,6 +7,6 @@ import com.housematch.house.model.dto.AptDetailDto;
 @Mapper
 public interface AptDetailMapper {
 	
-	AptDetailDto selectApt(long aptCode);
+	AptDetailDto selectAptDetail(long aptCode);
 	
 }

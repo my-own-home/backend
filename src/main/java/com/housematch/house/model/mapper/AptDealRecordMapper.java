@@ -9,5 +9,5 @@ import com.housematch.house.model.dto.AptDealRecordDto;
 @Mapper
 public interface AptDealRecordMapper {
 	
-	List<AptDealRecordDto> selectAptDealRecordList(int aptCode);
+	List<AptDealRecordDto> selectAptDealRecordList(long aptCode);
 }

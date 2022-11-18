@@ -18,12 +18,13 @@
 	<select id="selectAptListByDong" parameterType="string" resultMap="AptInfoDtoMap">
 		select apt_code, apt_name, dong_code, build_year, 
         case when road_name_bonbun !=0  and road_name_bubun != 0 then CONCAT(road_name, " ", road_name_bonbun, "-",road_name_bubun) 
-        when road_name_bonbun !=0  and road_name_bubun = 0 then CONCAT(road_name, " ", road_name_bonbun)
-        else road_name end as fullRoadAddress,
+        	when road_name_bonbun !=0  and road_name_bubun = 0 then CONCAT(road_name, " ", road_name_bonbun)
+        	else road_name end as fullRoadAddress,
         CONCAT(jibun_name, " ", jibun) as fullJibunAddress,
         lat, lng
         from apt_info
-        where dong_code=#{dongCode}
+    	where dong_code like concat(substring(#{dongCode}, 1, 8), "%")
 	</select>
+	
 
 </mapper>
