@@ -123,6 +123,11 @@ public class NoticeController {
 		NoticeDto notice = noticeService.getNotice(userId, no);
 
 		if (notice != null) {
+
+			if (!notice.getUid().equals(userId)) {
+				return ResponseEntity.badRequest().build();
+			}
+
 			boolean res = noticeService.removeNotice(no);
 
 			if (res) {
