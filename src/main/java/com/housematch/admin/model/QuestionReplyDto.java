@@ -10,16 +10,14 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class NoticeDto {
-
-	private int no; // 자동 생성
+public class QuestionReplyDto {
+	
+	private int rNo; // 자동 생성
+	private int qNo; // 자동 가져옴
 	@NonNull
 	private String uid;
 	@NonNull
-	private String subject;
-	@NonNull
 	private String content;
-	private int hit; // 자동 생성
 	private String regTime; // 자동 생성
 	private String upTime; // 자동 생성
 
