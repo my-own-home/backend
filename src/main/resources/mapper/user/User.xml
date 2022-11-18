@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.housematch.user.model.mapper">
+<mapper namespace="com.housematch.user.model.mapper.UserMapper">
 
 	<resultMap type="UserDto" id="UserDtoMap">
 		<result column="user_id" property="id"/>
@@ -12,11 +12,11 @@
 		<result column="register_time" property="regTime"/>
 	</resultMap>
 
-	<select id="selectUser" parameterType="string" resultType="UserDto">
-		select user_id, password, fullname, email, register_time
+	<select id="selectUser" parameterType="string" resultMap="UserDtoMap">
+		select user_id, fullname, email, register_time
 		from app_user
 		<where>
-		user_id = #{id}
+			user_id = #{id}
 		</where>
 	</select>
 
