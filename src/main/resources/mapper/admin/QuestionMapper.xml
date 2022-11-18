@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.housematch.admin.model.mapper.QuestionReplyMapper">
+
+	<!-- Result Map -->
+	<resultMap type="QuestionDto" id="QuestionDtoMap">
+		<result column="question_no" property="no" />
+		<result column="user_id" property="uid" />
+		<result column="title" property="subject" />
+		<result column="content" property="content" />
+		<result column="register_time" property="regTime" />
+		<result column="update_time" property="upTime" />
+	</resultMap>
+
+
+	<!-- SQL -->
+	<sql id="basicSelectSQL">
+		select *
+		from question
+	</sql>
+
+	<select id="selectQuestionList" resultMap="QuestionDtoMap">
+		<include refid="basicSelectSQL" />
+	</select>
+
+	<select id="selectQuestion" parameterType="int"	resultMap="QuestionDtoMap">
+		<include refid="basicSelectSQL" />
+		where question_no = #{no}
+	</select>
+
+	<insert id="insertQuestion" parameterType="QuestionDto">
+		insert into question(user_id, title, content, register_time)
+		values (#{uid}, #{title}, #{content}, now())
+	</insert>
+
+	<update id="updateQuestion" parameterType="QuestionDto">
+		update question
+		set title = #{subject}, content = #{content}, update_time = now()
+		where question_no = #{no}
+	</update>
+
+	<delete id="deleteQuestion" parameterType="int">
+		delete from question
+		where question_no = #{no}
+	</delete>
+
+</mapper>

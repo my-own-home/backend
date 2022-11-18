@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.housematch.interest.model.mapper.InterestAptMapper">
+
+	<!-- Result Map -->
+	<resultMap type="InterestAptDto" id="InterestAptDtoMap">
+		<result column="user_id" property="id" />
+		<result column="apt_code" property="aptCode" />
+		<result column="register_time" property="regTime" />
+	</resultMap>
+
+
+	<!-- SQL -->
+	<sql id="basicSelectSQL">
+		select *
+		from interest_apt
+		where user_id = #{id}
+	</sql>
+
+	<select id="selectInterestAptList" parameterType="string" resultMap="InterestAptDtoMap">
+		<include refid="basicSelectSQL" />
+	</select>
+
+	<insert id="insertInterestApt" parameterType="InterestAptDto">
+		insert into interest_apt(user_id, apt_code,	register_time)
+		values (#{id}, #{aptCode}, now())
+	</insert>
+
+	<delete id="deleteInterestApt" parameterType="InterestAptDto">
+		delete from interest_apt
+		where user_id = #{id} and apt_code = #{aptCode}
+	</delete>
+
+</mapper>

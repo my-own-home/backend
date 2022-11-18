@@ -13,7 +13,8 @@ public class AptReviewDto {
 	private int	no;
 	private long aptCode;
 	@NonNull
-	private String userId;
+	private String uid;
+	
 	private int	score;
 	private int scoreTransport;
 	private int	scoreNature;
@@ -22,7 +23,6 @@ public class AptReviewDto {
 	@NonNull
 	private String content;
 	private String regTime;
-	private String updateTime;
-	private String delTime;
+	private String upTime;
 	
 }

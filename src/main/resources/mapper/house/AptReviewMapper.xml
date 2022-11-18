@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.housematch.house.model.mapper.AptReviewMapper">
+
+	<!-- Result Map -->
+	<resultMap type="AptReviewDto" id="AptReviewDtoMap">
+		<result column="review_no" property="no" />
+		<result column="apt_code" property="aptCode" />
+		<result column="user_id" property="uid" />
+		<result column="score_stars" property="score" />
+		<result column="score_transport" property="scoreTransport" />
+		<result column="score_nature" property="scoreNature" />
+		<result column="score_edu" property="scoreEdu" />
+		<result column="score_life" property="scoreLife" />
+		<result column="content" property="content" />
+		<result column="register_time" property="regTime" />
+		<result column="update_time" property="upTime" />
+	</resultMap>
+
+
+	<!-- SQL -->
+	<sql id="basicSelectSQL">
+		select *
+		from apt_review
+	</sql>
+
+
+	<!-- 해당 아파트 리뷰 목록 조회 -->
+	<select id="selectAptReviewList" parameterType="long" resultMap="AptReviewDtoMap">
+		<include refid="basicSelectSQL" />
+		where apt_code = #{aptCode}
+	</select>
+
+	<!-- 상세 리뷰 조회 -->
+	<select id="selectAptReview" parameterType="int" resultMap="AptReviewDtoMap">
+		<include refid="basicSelectSQL" />
+		where review_no = #{no}
+	</select>
+
+	<insert id="insertAptReview" parameterType="AptReviewDto">
+		insert into apt_review(user_id, apt_code, 
+			score_stars, score_transport, score_nature, score_edu, score_life, content, register_time)
+		values (#{uid}, #{aptCode},	#{score}, #{scoreTransport}, #{scoreNature}, #{scoreEdu},
+			#{scoreLife}, #{content}, now())
+	</insert>
+
+	<update id="updateAptReview" parameterType="AptReviewDto">
+		update apt_review
+		set score_stars = #{score}, score_transport = #{scoreTransport}, score_nature = #{scoreNature}, 
+			score_edu = #{scoreEdu}, score_life = #{scoreLife}, content = #{content}, 
+			update_time = now()
+		where review_no = #{no}
+	</update>
+
+	<delete id="deleteAptReview" parameterType="int">
+		delete from apt_review
+		where review_no = #{no}
+	</delete>
+
+</mapper>

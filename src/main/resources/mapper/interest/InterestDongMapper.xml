@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.housematch.interest.model.mapper.InterestDongMapper">
+
+	<!-- Result Map -->
+	<resultMap type="InterestDongDto" id="InterestDongDtoMap">
+		<result column="user_id" property="id" />
+		<result column="dong_code" property="dongCode" />
+		<result column="register_time" property="regTime" />
+	</resultMap>
+
+
+	<!-- SQL -->
+	<sql id="basicSelectSQL">
+		select *
+		from interest_dong
+		where user_id = #{id}
+	</sql>
+
+	<select id="selectInterestDongList" parameterType="string" resultMap="InterestDongDtoMap">
+		<include refid="basicSelectSQL" />
+	</select>
+
+	<insert id="insertInterestDong" parameterType="InterestDongDto">
+		insert into interest_dong(user_id, dong_code, register_time)
+		values (#{id}, #{dongCode}, now())
+	</insert>
+
+	<delete id="deleteInterestDong" parameterType="InterestDongDto">
+		delete from interest_dong
+		where user_id = #{id} and dong_code = #{dongCode}
+	</delete>
+
+</mapper>
