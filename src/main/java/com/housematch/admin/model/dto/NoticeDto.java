@@ -1,5 +1,7 @@
 package com.housematch.admin.model.dto;
 
+import org.springframework.stereotype.Repository;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

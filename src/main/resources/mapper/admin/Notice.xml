@@ -22,8 +22,6 @@
 		</if>
 	</sql>
 	
-	
-	
 	<select id="selectNoticeList" parameterType="map" resultMap="NoticeDtoMap">
 		select notice_no, user_id, title, content, hit, register_time, update_time
 		from notice
@@ -31,7 +29,7 @@
 			<include refid="search"></include>
 		</where>
 		order by notice_no desc
-		limit #{start}, #{listSize}
+		limit #{start}, #{listsize}
 	</select>
 
 	<select id="getTotalNoticeCount" parameterType="map" resultType="int">
@@ -42,7 +40,7 @@
 		</where>	
 	</select>
 	
-	<select id="selectNotice" parameterType="int" resultType="NoticeDto">
+	<select id="selectNotice" parameterType="int" resultMap="NoticeDtoMap">
 		select notice_no, user_id, title, content, hit, register_time, update_time
 		from notice
 		<where>
@@ -51,13 +49,13 @@
 	</select>
 
 	<insert id="insertNotice" parameterType="NoticeDto">
-		insert into notice (user_id, title, content, hit, register_time, update_time)
-		values (#{uid}, #{subject}, #{content}, 0, now(), now())
+		insert into notice (user_id, title, content, hit, register_time)
+		values (#{uid}, #{subject}, #{content}, 0, now())
 	</insert>
 
 	<update id="updateNotice" parameterType="NoticeDto">
 		update notice
-		set user_id = #{uid}, title = #{subject}, content = #{content}, hit = #{hit}, register_time=#{regTime}, update_time=now()
+		set user_id = #{uid}, title = #{subject}, content = #{content}, hit = #{hit}, update_time = now()
 		where notice_no = #{no}
 	</update>
 	
