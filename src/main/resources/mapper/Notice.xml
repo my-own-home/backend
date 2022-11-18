@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.housematch.admin.model.mapper">
+
+	<resultMap type="NoticeDto" id="NoticeDtoMap">
+		<result column="notice_no" property="no"/>
+		<result column="user_id" property="uid"/>
+		<result column="title" property="subject"/>
+		<result column="content" property="content"/>
+		<result column="hit" property="hit"/>
+		<result column="register_time" property="regTime"/>
+		<result column="update_time" property="upTime"/>
+	</resultMap>
+	
+	<select id="selectUser" parameterType="string" resultMap="NoticeDtoMap">
+		select notice_no, user_id, title, content, hit, register_time, update_time
+		from notice
+		order by notice_no
+	</select>
+
+	<select id="selectNotice" parameterType="int" resultType="NoticeDto">
+		select notice_no, user_id, title, content, hit, register_time, update_time
+		from notice
+		<where>
+		notice_no = #{no}
+		</where>
+	</select>
+
+	<insert id="insertNotice" parameterType="NoticeDto">
+		insert into notice (user_id, title, content, hit, register_time, update_time)
+		values (#{uid}, #{subject}, #{content}, 0, now(), now())
+	</insert>
+
+	<update id="updateNotice" parameterType="NoticeDto">
+		update notice
+		set user_id = #{uid}, title = #{subject}, content = #{content}, hit = #{hit}, register_time=#{regTime}, update_time=now()
+		where notice_no = #{no}
+	</update>
+	
+	<update id="updateHit" parameterType="int">
+		update notice
+		set hit = hit + 1
+		where notice_no = #{no}
+	</update>
+
+	<delete id="deleteNotice" parameterType="int">
+		delete from notice
+		where notice_no = #{no}
+	</delete>
+
+</mapper>

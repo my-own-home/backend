@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.housematch.house.model.mapper">
+
+	<resultMap type="AptDealRecordDto" id="AptDealRecordDtoMap">
+		<result column="id" property="id"/>
+		<result column="apt_code" property="aptCode"/>
+		<result column="deal_amount" property="dealAmount"/>
+		<result column="deal_month" property="dealMonth"/>
+		<result column="deal_day" property="dealDay"/>
+		<result column="area" property="area"/>
+		<result column="floor" property="floor"/>
+		<result column="cancel_deal_type" property="cancel_deal_type"/>
+	</resultMap>
+	
+	<select id="selectAptDealRecordList" parameterType="int" resultMap="AptDealRecordDtoMap">
+		select id, apt_code, deal_amount, deal_month, deal_day, floor, cancel_deal_type
+		from apt_deal_record
+	</select>
+
+</mapper>

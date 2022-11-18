@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.housematch.house.model.mapper">
+
+	<resultMap type="AptInfoDto" id="AptInfoDtoMap">
+		<result column="apt_code" property="aptCode"/>
+		<result column="apt_name" property="aptName"/>
+		<result column="dong_code" property="dongCode"/>
+		<result column="build_year" property="buildYear"/>
+		<result column="fullRoadAddress" property="fullRoadAddress"/>
+		<result column="fullJibunAddress" property="fullJibunAddress"/>
+		<result column="lat" property="lat"/>
+		<result column="lng" property="lng"/>
+	</resultMap>
+	
+	<select id="selectAptListByDong" parameterType="string" resultMap="AptInfoDtoMap">
+		select apt_code, apt_name, dong_code, build_year, 
+        case when road_name_bonbun !=0  and road_name_bubun != 0 then CONCAT(road_name, " ", road_name_bonbun, "-",road_name_bubun) 
+        when road_name_bonbun !=0  and road_name_bubun = 0 then CONCAT(road_name, " ", road_name_bonbun)
+        else road_name end as fullRoadAddress,
+        CONCAT(jibun_name, " ", jibun) as fullJibunAddress,
+        lat, lng
+        from apt_info
+        where dong_code=#{dongCode}
+	</select>
+
+</mapper>
