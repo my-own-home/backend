@@ -3,7 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper
-	namespace="com.housematch.admin.model.mapper.QuestionReplyMapper">
+	namespace="com.housematch.admin.model.mapper.QuestionMapper">
 
 	<!-- Result Map -->
 	<resultMap type="QuestionDto" id="QuestionDtoMap">

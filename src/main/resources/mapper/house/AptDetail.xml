@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.housematch.house.model.mapper">
+<mapper namespace="com.housematch.house.model.mapper.AptDetailMapper">
 
 	<resultMap type="AptDetailDto" id="AptDetailDtoMap">
 		<result column="apt_code" property="aptCode"/>
