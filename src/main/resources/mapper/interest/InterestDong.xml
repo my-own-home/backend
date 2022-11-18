@@ -33,5 +33,10 @@
 		delete from interest_dong
 		where user_id = #{id} and dong_code = #{dongCode}
 	</delete>
+	
+	<select id="getTotalInterestDongCount" parameterType="map" resultType="int">
+		select count(*)
+		from board
+	</select>
 
 </mapper>

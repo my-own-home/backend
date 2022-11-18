@@ -1,6 +1,7 @@
 package com.housematch.house.model.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -18,5 +19,7 @@ public interface AptReviewMapper {
 	int updateAptReview(AptReviewDto aptReviewDto);
 
 	int deleteAptReview(int no);
+	
+	int getTotalReviewCount(Map<String, Object> map);
 
 }

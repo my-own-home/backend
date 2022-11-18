@@ -1,6 +1,7 @@
 package com.housematch.interest.model.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,5 +15,7 @@ public interface InterestAptMapper {
 	int insertInterestApt(InterestAptDto interestAptDto);
 
 	int deleteInterestApt(InterestAptDto interestAptDto);
+	
+	int getTotalInterestAptCount(Map<String, Object> map);
 
 }

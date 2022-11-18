@@ -33,5 +33,10 @@
 		delete from interest_apt
 		where user_id = #{id} and apt_code = #{aptCode}
 	</delete>
-
+	
+	<select id="getTotalInterestAptCount" parameterType="map" resultType="int">
+		select count(article_no)
+		from board
+	</select>
+	
 </mapper>

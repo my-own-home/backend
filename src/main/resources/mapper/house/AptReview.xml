@@ -60,4 +60,9 @@
 		where review_no = #{no}
 	</delete>
 
+	<select id="getTotalReviewCount" parameterType="map" resultType="int">
+		select count(*)
+		from apt_review
+	</select>
+	
 </mapper>

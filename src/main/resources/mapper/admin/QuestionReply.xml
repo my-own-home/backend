@@ -33,7 +33,7 @@
 		values (#{qNo}, #{uid}, #{content}, now())
 	</insert>
 
-	<update id="modifyQuestionReply" parameterType="QuestionReplyDto">
+	<update id="updateQuestionReply" parameterType="QuestionReplyDto">
 		update question_reply
 		set content = #{content}, update_time = now()
 		where reply_no = #{rNo}

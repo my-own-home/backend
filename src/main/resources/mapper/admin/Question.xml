@@ -47,4 +47,23 @@
 		where question_no = #{no}
 	</delete>
 
+	<sql id="search">
+		<if test="word != null and word != ''">
+			<if test="key == 'subject'">
+				and title like concat('%', #{word}, '%')
+			</if>
+			<if test="key != 'subject'">
+				and ${key} = #{word}
+			</if>
+		</if>
+	</sql>
+
+	<select id="getTotalQuestionCount" parameterType="map" resultType="int">
+		select count(*)
+		from question
+		<where>
+			<include refid="search"></include>
+		</where>
+	</select>
+	
 </mapper>

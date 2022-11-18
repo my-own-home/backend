@@ -13,7 +13,7 @@ public interface QuestionReplyMapper {
 
 	int insertQuestionReply(QuestionReplyDto questionReplyDto);
 
-	int modifyQuestionReply(QuestionReplyDto questionReplyDto);
+	int updateQuestionReply(QuestionReplyDto questionReplyDto);
 
 	int deleteQuestionReply(int rNo); // 질문 대답 번호
 
