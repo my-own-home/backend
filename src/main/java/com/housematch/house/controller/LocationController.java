@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.housematch.house.model.service.LocationService;
@@ -39,8 +40,8 @@ public class LocationController {
 	}
 
 	@ApiOperation(value = "시도 목록 조회")
-	@GetMapping("/sido/{dongCode}")
-	public ResponseEntity<?> getSidoList(@PathVariable String dongCode){
+	@GetMapping({"/sido", "/sido/{dongCode}"})
+	public ResponseEntity<?> getSidoList(@RequestParam(required = false) @PathVariable String dongCode){
 		return ResponseEntity.ok(locationService.getSidoList(dongCode));
 	}
 }
