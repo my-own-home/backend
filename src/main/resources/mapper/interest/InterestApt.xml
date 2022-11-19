@@ -12,7 +12,6 @@
 		<result column="register_time" property="regTime" />
 	</resultMap>
 
-
 	<!-- SQL -->
 	<sql id="basicSelectSQL">
 		select *
@@ -20,8 +19,15 @@
 		where user_id = #{id}
 	</sql>
 
-	<select id="selectInterestAptList" parameterType="string" resultMap="InterestAptDtoMap">
+	<select id="selectInterestAptList" parameterType="map" resultMap="InterestAptDtoMap">
 		<include refid="basicSelectSQL" />
+		order by register_time desc
+		limit #{start}, #{listsize}
+	</select>
+	
+	<select id="selectInterestApt" parameterType="InterestAptDto" resultMap="InterestAptDtoMap">
+		<include refid="basicSelectSQL" />
+		and apt_code = #{aptCode}
 	</select>
 
 	<insert id="insertInterestApt" parameterType="InterestAptDto">

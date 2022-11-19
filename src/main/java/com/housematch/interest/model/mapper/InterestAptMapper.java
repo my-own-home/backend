@@ -10,8 +10,10 @@ import com.housematch.interest.model.dto.InterestAptDto;
 @Mapper
 public interface InterestAptMapper {
 
-	List<InterestAptDto> selectInterestAptList(String id);
-
+	List<InterestAptDto> selectInterestAptList(Map<String, Object> param);
+	
+	InterestAptDto selectInterestApt(InterestAptDto interestAptDto);
+	
 	int insertInterestApt(InterestAptDto interestAptDto);
 
 	int deleteInterestApt(InterestAptDto interestAptDto);

@@ -20,8 +20,15 @@
 		where user_id = #{id}
 	</sql>
 
-	<select id="selectInterestDongList" parameterType="string" resultMap="InterestDongDtoMap">
+	<select id="selectInterestDongList" parameterType="map" resultMap="InterestDongDtoMap">
 		<include refid="basicSelectSQL" />
+		order by register_time desc
+		limit #{start}, #{listsize}
+	</select>
+
+	<select id="selectInterestDong" parameterType="InterestDongDto" resultMap="InterestDongDtoMap">
+		<include refid="basicSelectSQL" />
+		and dong_code = #{dongCode}
 	</select>
 
 	<insert id="insertInterestDong" parameterType="InterestDongDto">

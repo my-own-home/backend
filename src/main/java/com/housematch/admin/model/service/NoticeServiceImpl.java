@@ -31,18 +31,12 @@ public class NoticeServiceImpl implements NoticeService {
 
 		param.put("start", start);
 		param.put("listsize", SizeConstant.LIST_SIZE);
-
-		List<NoticeDto> lists = noticeMapper.selectNoticeList(param);
-		for (NoticeDto no : lists) {
-			System.out.println(no);
-		}
-
-		return lists;
+		
+		return noticeMapper.selectNoticeList(param);
 	}
 
 	@Override
 	public PageNavigation makePageNavigation(Map<String, Object> conditions) {
-
 		PageNavigation pageNavigation = new PageNavigation();
 
 		int naviSize = SizeConstant.NAVIGATION_SIZE;

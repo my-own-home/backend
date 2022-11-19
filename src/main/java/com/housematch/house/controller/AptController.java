@@ -43,8 +43,6 @@ public class AptController {
 
 	}
 
-	
-	
 	@ApiOperation(value = "아파트 실거래가 목록 조회")
 	@GetMapping("/{aptCode}/deals")
 	public ResponseEntity<?> getAptDealRecordList(@PathVariable long aptCode) {

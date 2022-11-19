@@ -15,7 +15,7 @@ public class InterestAptDto {
 	@NonNull
 	private String id;
 	@NonNull
-	private String aptCode;
+	private Long aptCode;
 	private String regTime;
 
 }

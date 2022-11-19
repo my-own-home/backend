@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.housematch.interest.model.dto.InterestAptDto;
 import com.housematch.interest.model.dto.InterestDongDto;
 import com.housematch.interest.model.mapper.InterestDongMapper;
 import com.housematch.util.PageNavigation;
@@ -18,7 +19,7 @@ import com.housematch.util.SizeConstant;
 public class InterestDongServiceImpl implements InterestDongService {
 
 	private InterestDongMapper interestDongMapper;
-	
+
 	@Autowired
 	public InterestDongServiceImpl(InterestDongMapper interestDongMapper) {
 		super();
@@ -26,8 +27,31 @@ public class InterestDongServiceImpl implements InterestDongService {
 	}
 
 	@Override
-	public List<InterestDongDto> getInterestDongList(String id) {
-		return interestDongMapper.selectInterestDongList(id);
+	public List<InterestDongDto> getInterestDongList(Map<String, Object> conditions) {
+
+		Map<String, Object> param = new HashMap<String, Object>();
+
+		String id = (String) conditions.get("userId");
+		int pgNo = (int) conditions.get("pgno");
+		int start = pgNo * SizeConstant.LIST_SIZE - SizeConstant.LIST_SIZE;
+
+		param.put("id", id);
+		param.put("start", start);
+		param.put("listsize", SizeConstant.LIST_SIZE);
+
+		return interestDongMapper.selectInterestDongList(param);
+	}
+
+	@Override
+	public InterestDongDto getInterestDong(InterestDongDto interestDongDto) {
+		return interestDongMapper.selectInterestDong(interestDongDto);
+	}
+
+	@Override
+	public boolean checkDuplicateInterestDong(InterestDongDto interestDongDto) {
+		InterestDongDto check = interestDongMapper.selectInterestDong(interestDongDto);
+
+		return check != null;
 	}
 
 	@Override
@@ -41,27 +65,32 @@ public class InterestDongServiceImpl implements InterestDongService {
 	}
 
 	@Override
-	public PageNavigation makePageNavigation(Map<String, Object> map) {
+	public PageNavigation makePageNavigation(Map<String, Object> conditions) {
 		PageNavigation pageNavigation = new PageNavigation();
 
 		int naviSize = SizeConstant.NAVIGATION_SIZE;
 		int sizePerPage = SizeConstant.LIST_SIZE;
-		int currentPage = (int) map.get("pgno");
+		int currentPage = (int) conditions.get("pgno");
 
 		pageNavigation.setCurrentPage(currentPage);
 		pageNavigation.setNaviSize(naviSize);
+
 		Map<String, Object> param = new HashMap<String, Object>();
 //		String key = map.get("key");
 //		if ("userid".equals(key))
 //			key = "user_id";
 //		param.put("key", key == null ? "" : key);
 //		param.put("word", map.get("word") == null ? "" : map.get("word"));
+
 		int totalCount = interestDongMapper.getTotalInterestDongCount(param);
 		pageNavigation.setTotalCount(totalCount);
+
 		int totalPageCount = (totalCount - 1) / sizePerPage + 1;
 		pageNavigation.setTotalPageCount(totalPageCount);
+
 		boolean startRange = currentPage <= naviSize;
 		pageNavigation.setStartRange(startRange);
+
 		boolean endRange = (totalPageCount - 1) / naviSize * naviSize < currentPage;
 		pageNavigation.setEndRange(endRange);
 		pageNavigation.makeNavigator();

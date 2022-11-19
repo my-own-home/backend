@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -100,7 +101,7 @@ public class NoticeController {
 		if (notice != null) {
 
 			if (!notice.getUid().equals(userId)) {
-				return ResponseEntity.badRequest().build();
+				return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
 			}
 
 			boolean res = noticeService.modifyNotice(noticeDto);
@@ -125,7 +126,7 @@ public class NoticeController {
 		if (notice != null) {
 
 			if (!notice.getUid().equals(userId)) {
-				return ResponseEntity.badRequest().build();
+				return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
 			}
 
 			boolean res = noticeService.removeNotice(no);
