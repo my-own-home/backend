@@ -1,0 +1,117 @@
+package com.housematch.interest.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.housematch.interest.model.dto.InterestDongDto;
+import com.housematch.interest.model.dto.InterestDongDto;
+import com.housematch.interest.model.dto.InterestDongDto;
+import com.housematch.interest.model.service.InterestDongService;
+import com.housematch.user.model.dto.UserDto;
+import com.housematch.user.model.service.UserService;
+import com.housematch.util.PageNavigation;
+
+import io.swagger.annotations.ApiOperation;
+
+@RestController
+@RequestMapping("/api/user/interest/locations")
+public class InterestDongController {
+
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private InterestDongService interestDongService;
+
+	@ApiOperation(value = "관심 지역 목록 조회")
+	@GetMapping
+	public ResponseEntity<?> getInterestDongList(@RequestParam(required = false) Integer pgno,
+			@RequestBody String userId) {
+
+		UserDto user = userService.getUser(userId);
+
+		if (user != null) {
+
+			Map<String, Object> conditions = new HashMap<String, Object>();
+			conditions.put("userId", userId);
+
+			if (pgno != null) {
+				conditions.put("pgno", pgno);
+			} else {
+				conditions.put("pgno", 1);
+			}
+
+			List<InterestDongDto> interestLocs = interestDongService.getInterestDongList(conditions);
+			PageNavigation navigation = interestDongService.makePageNavigation(conditions);
+
+			Map<String, Object> response = new HashMap<String, Object>();
+			response.put("interestLocs", interestLocs);
+			response.put("navigation", navigation);
+
+			return ResponseEntity.ok(response);
+
+		} else {
+			return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+		}
+	}
+
+	@ApiOperation(value = "관심 지역 추가")
+	@PostMapping("/{dongCode}")
+	public ResponseEntity<?> addInterestDong(@PathVariable String dongCode, @RequestBody String userId) {
+
+		UserDto user = userService.getUser(userId);
+
+		if (user != null) {
+			InterestDongDto interestDong = new InterestDongDto(userId, dongCode);
+
+			if (interestDongService.checkDuplicateInterestDong(interestDong)) {
+				return ResponseEntity.badRequest().build();
+			}
+
+			boolean res = interestDongService.addInterestDong(interestDong);
+
+			if (res) {
+				return ResponseEntity.ok(interestDongService.getInterestDong(interestDong));
+			} else {
+				return ResponseEntity.internalServerError().build();
+			}
+
+		} else {
+			return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+		}
+	}
+
+	@ApiOperation(value = "관심 지역 삭제")
+	@DeleteMapping("/{dongCode}")
+	public ResponseEntity<?> removeInterestDong(@PathVariable String dongCode, @RequestBody String userId) {
+
+		InterestDongDto interestDong = interestDongService.getInterestDong(new InterestDongDto(userId, dongCode));
+
+		if (interestDong != null) {
+
+			boolean res = interestDongService.removeInterestDong(interestDong);
+
+			if (res) {
+				return ResponseEntity.noContent().build();
+			} else {
+				return ResponseEntity.internalServerError().build();
+			}
+
+		} else {
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+}
