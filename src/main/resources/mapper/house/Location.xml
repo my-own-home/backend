@@ -36,16 +36,18 @@
 	<select id="selectDongList" parameterType="string" resultMap="LocationDtoMap">
 		<include refid="basicDongCodeSelectSQL" />
 		where dong_code like concat(substring(#{dongCode}, 1,5), "___", "00") 
-			and dong_code not like "__00000000" and dong_code not like "_____00000";
+			and dong_code not like "__00000000" and dong_code not like "_____00000"
+		order by dong_name asc
 	</select>
 
 	<select id="selectGugunList" parameterType="string" resultMap="LocationDtoMap">
 		<include refid="basicDongCodeSelectSQL" />
 		<choose>
-			<when test='dong_code = "3611000000"'> where dong_code = #{dongCode}</when>
+			<when test='dong_code == "3611000000"'> where dong_code = #{dongCode}</when>
 			<otherwise>where dong_code like concat(substring(#{dongCode}, 1,2), "___", "00000") 
 						and dong_code not like "__00000000"</otherwise>
 		</choose>
+		order by gugun_name asc
 	</select>
 
 	<select id="selectSidoList" parameterType="string" resultMap="LocationDtoMap">
