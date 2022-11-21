@@ -24,9 +24,8 @@
 	</resultMap>
 	
 	<select id="selectAptDetail" parameterType="long" resultMap="AptDetailDtoMap">
-		select apt_code, corridor_type, heating_type, dong_cnt, household_cnt,
-		constructor, implementer, use_approval_date, food_recycle, management_office_tel,
-		management_office_fax, cctv_cnt, ground_parking_cnt, underground_parking_cnt,
+		select apt_code, corridor_type, heating_type, dong_cnt, household_cnt, ifnull(constructor, "정보없음") as constructor, ifnull(implementer, "정보없음") as implementer, use_approval_date, ifnull(food_recycle, "정보없음") as food_recycle, management_office_tel,
+		ifnull(management_office_fax, "정보없음") as management_office_fax, ifnull(round(cctv_cnt), 0) as cctv_cnt, ground_parking_cnt, ifnull(round(underground_parking_cnt), 0) as underground_parking_cnt ,
 		total_parking_cnt, apt_facilities
 		from apt_detail
 		where apt_code = #{aptCode}

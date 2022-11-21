@@ -8,6 +8,7 @@
 		<result column="id" property="id"/>
 		<result column="apt_code" property="aptCode"/>
 		<result column="deal_amount" property="dealAmount"/>
+		<result column="deal_year" property="dealYear"/>
 		<result column="deal_month" property="dealMonth"/>
 		<result column="deal_day" property="dealDay"/>
 		<result column="area" property="area"/>
@@ -15,9 +16,10 @@
 	</resultMap>
 	
 	<select id="selectAptDealRecordList" parameterType="long" resultMap="AptDealRecordDtoMap">
-		select id, apt_code, deal_amount, deal_month, deal_day, floor, cancel_deal_type
+		select id, apt_code, deal_amount, deal_year, deal_month, deal_day, floor, cancel_deal_type
 		from apt_deal_record
 		where apt_code = #{aptCode}
+		order by id desc
 	</select>
 
 </mapper>
