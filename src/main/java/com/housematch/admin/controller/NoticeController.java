@@ -61,8 +61,9 @@ public class NoticeController {
 
 	@ApiOperation(value = "공지사항 상세 조회")
 	@GetMapping("/{no}")
-	public ResponseEntity<?> getNotice(@PathVariable int no, @RequestBody String userId) {
-
+	public ResponseEntity<?> getNotice(@PathVariable int no) {
+		// TODO : userid 추가 필요
+		String userId = "ssafy";
 		NoticeDto notice = noticeService.getNotice(userId, no);
 
 		if (notice != null)
@@ -119,8 +120,10 @@ public class NoticeController {
 
 	@ApiOperation(value = "공지사항 삭제")
 	@DeleteMapping("/{no}")
-	public ResponseEntity<?> removeNotice(@PathVariable int no, @RequestBody String userId) {
+	public ResponseEntity<?> removeNotice(@PathVariable int no) {
 
+		// TODO : userid 추가 필요
+		String userId = "admin";
 		NoticeDto notice = noticeService.getNotice(userId, no);
 
 		if (notice != null) {
