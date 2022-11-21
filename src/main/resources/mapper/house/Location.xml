@@ -25,8 +25,15 @@
 		from dong_code
 	</sql>
 
-	<!-- 자세한 동 위치 조회 -->
+	<!-- 자세한 동 정보 조회 -->
 	<select id="selectDong" parameterType="string" resultMap="LocationDtoDetailedMap">
+		select *
+		from dong_code
+		where dong_code = #{dongCode}
+	</select>
+	
+	<!-- lat lng 함께 조회  -->
+	<select id="selectDongDetail" parameterType="string" resultMap="LocationDtoDetailedMap">
 		select *
 		from dong_detail
 		where dong_code = #{dongCode}
