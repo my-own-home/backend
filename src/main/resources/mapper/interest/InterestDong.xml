@@ -32,8 +32,12 @@
 	</select>
 
 	<insert id="insertInterestDong" parameterType="InterestDongDto">
-		insert into interest_dong(user_id, dong_code, register_time)
-		values (#{id}, #{dongCode}, now())
+		insert into interest_dong
+		values (#{id}, #{dongCode}, now(),(
+		select concat(dc.sido_name, " ", dc.gugun_name, " ", dc.dong_name) as dong_name
+		from interest_dong id, dong_code dc
+		where id.#{dongCode} = dc.dong_code
+		))
 	</insert>
 
 	<delete id="deleteInterestDong" parameterType="InterestDongDto">
