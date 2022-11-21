@@ -36,4 +36,10 @@
 		where user_id = #{id}
 	</delete>
 
+	<select id="login" parameterType="UserDto" resultType="UserDto">
+		select *
+		from app_user
+		where user_id = #{id} and password = #{pw}
+	</select>
+	
 </mapper>
