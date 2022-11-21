@@ -32,12 +32,14 @@
 	</select>
 
 	<insert id="insertInterestDong" parameterType="InterestDongDto">
-		insert into interest_dong
-		values (#{id}, #{dongCode}, now(),(
-		select concat(dc.sido_name, " ", dc.gugun_name, " ", dc.dong_name) as dong_name
-		from interest_dong id, dong_code dc
-		where #{dongCode} = dc.dong_code
-		))
+		insert into interest_dong 
+		values (#{id}, #{dongCode}, now(),
+		(select apt_name from apt_info where apt_code=#{dongCode}), 
+		(select concat(sido_name, " ", gugun_name, " ", jibun_name) 
+		from apt_info where apt_code=#{dongCode})
+		)
+		
+	
 	</insert>
 
 	<delete id="deleteInterestDong" parameterType="InterestDongDto">
