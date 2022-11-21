@@ -34,9 +34,17 @@ public class AptController {
 		return ResponseEntity.ok(aptInfoService.getAptListByDong(dongCode));
 
 	}
+	
+	@ApiOperation(value = "아파트 기본 정보 조회")
+	@GetMapping("/{aptCode}")
+	public ResponseEntity<?> getAptInfo(@PathVariable long aptCode) {
+
+		return ResponseEntity.ok(aptInfoService.getAptInfo(aptCode));
+
+	}
 
 	@ApiOperation(value = "아파트 상세 정보 조회")
-	@GetMapping("/{aptCode}")
+	@GetMapping("/{aptCode}/detail")
 	public ResponseEntity<?> getAptDetail(@PathVariable long aptCode) {
 
 		return ResponseEntity.ok(aptDetailService.getAptDetail(aptCode));

@@ -8,4 +8,6 @@ public interface AptInfoService {
 
 	List<AptInfoDto> getAptListByDong(String dongCode);
 
+	AptInfoDto getAptInfo(long aptCode);
+
 }

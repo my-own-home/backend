@@ -15,10 +15,15 @@ public class AptInfoServiceImpl implements AptInfoService {
 
 	@Autowired
 	private AptInfoMapper aptInfoMapper;
-	
+
 	@Override
 	public List<AptInfoDto> getAptListByDong(String dongCode) {
-		return  aptInfoMapper.selectAptListByDong(dongCode);
+		return aptInfoMapper.selectAptListByDong(dongCode);
+	}
+
+	@Override
+	public AptInfoDto getAptInfo(long aptCode) {
+		return aptInfoMapper.getAptInfo(aptCode);
 	}
 
 }

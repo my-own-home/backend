@@ -10,5 +10,7 @@ import com.housematch.house.model.dto.AptInfoDto;
 public interface AptInfoMapper {
 
 	List<AptInfoDto> selectAptListByDong(String dongCode);
+
+	AptInfoDto getAptInfo(long aptCode);
 	
 }

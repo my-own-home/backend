@@ -15,7 +15,7 @@
 		<result column="lng" property="lng"/>
 	</resultMap>
 	
-	<select id="selectAptListByDong" parameterType="string" resultMap="AptInfoDtoMap">
+	<sql id="basicSelectSQL">
 		select apt_code, apt_name, dong_code, build_year, 
         case when road_name_bonbun !=0  and road_name_bubun != 0 then CONCAT(sido_name, " ", gugun_name, " ", road_name, " ", road_name_bonbun, "-",road_name_bubun) 
         	when road_name_bonbun !=0  and road_name_bubun = 0 then CONCAT(sido_name, " ", gugun_name, " ", road_name, " ", road_name_bonbun)
@@ -23,8 +23,16 @@
         CONCAT(sido_name, " ", gugun_name, " ", jibun_name, " ", jibun) as fullJibunAddress,
         lat, lng
         from apt_info
-    	where dong_code like concat(substring(#{dongCode}, 1, 8), "%")
+    </sql>
+	
+	<select id="selectAptListByDong" parameterType="string" resultMap="AptInfoDtoMap">
+		<include refid="basicSelectSQL" />
+		where dong_code like concat(substring(#{dongCode}, 1, 8), "%")
 	</select>
 	
+	<select id="getAptInfo" parameterType="long" resultMap="AptInfoDtoMap">
+		<include refid="basicSelectSQL" />
+		where apt_code = #{aptCode}
+	</select>
 
 </mapper>
