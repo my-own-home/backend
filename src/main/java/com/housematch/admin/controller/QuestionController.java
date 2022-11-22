@@ -1,5 +1,6 @@
 package com.housematch.admin.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.housematch.admin.model.dto.QuestionDto;
+import com.housematch.admin.model.dto.QuestionReplyDto;
+import com.housematch.admin.model.service.QuestionReplyService;
 import com.housematch.admin.model.service.QuestionService;
 import com.housematch.util.PageNavigation;
 
@@ -32,11 +35,16 @@ public class QuestionController {
 	@Autowired
 	private QuestionService questionService;
 	
+	@Autowired
+	private QuestionReplyService questionReplyService;
+	
 	@ApiOperation(value = "qna 질문 목록 조회")
 	@GetMapping
 	public ResponseEntity<?> getQuestionList(@RequestParam(required = false) Integer pgno){
 		
 		Map<String, Object> conditions = new HashMap<String, Object>();
+		
+		
 		
 		if (pgno != null) {
 			conditions.put("pgno", pgno);
@@ -45,11 +53,23 @@ public class QuestionController {
 		}
 		
 		List<QuestionDto> questions = questionService.getQuestionList(conditions);
+		Map<Integer,QuestionReplyDto > replies = new HashMap<Integer, QuestionReplyDto>();
+		
+		for (QuestionDto question : questions) {
+			QuestionReplyDto reply = questionReplyService.getQuestionReply(question.getNo());
+			
+			if(reply != null) {
+				replies.put(question.getNo(),reply );
+			}
+		}
+		
+		
 		PageNavigation navigation = questionService.makePageNavigation(conditions);
 		
 		Map<String, Object> response = new HashMap<String, Object>();
 		response.put("questions", questions);
 		response.put("navigation", navigation);
+		response.put("replies", replies);
 		
 		return ResponseEntity.ok(response);
 	}

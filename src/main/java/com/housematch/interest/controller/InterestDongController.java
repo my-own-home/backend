@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.housematch.interest.model.dto.InterestDongDto;
-import com.housematch.interest.model.dto.InterestDongDto;
+import com.housematch.house.model.dto.LocationDto;
+import com.housematch.house.model.service.LocationService;
 import com.housematch.interest.model.dto.InterestDongDto;
 import com.housematch.interest.model.service.InterestDongService;
 import com.housematch.user.model.dto.UserDto;
@@ -34,11 +34,13 @@ public class InterestDongController {
 	private UserService userService;
 	@Autowired
 	private InterestDongService interestDongService;
+	@Autowired
+	private LocationService locationService;
 
 	@ApiOperation(value = "관심 지역 목록 조회")
 	@GetMapping
 	public ResponseEntity<?> getInterestDongList(@RequestParam(required = false) Integer pgno,
-			@RequestBody String userId) {
+			@RequestParam String userId) {
 
 		UserDto user = userService.getUser(userId);
 
@@ -54,11 +56,24 @@ public class InterestDongController {
 			}
 
 			List<InterestDongDto> interestLocs = interestDongService.getInterestDongList(conditions);
+			Map<Integer, LocationDto> dongInfos = new HashMap<Integer, LocationDto>();
+			
+			for (int i = 0; i < interestLocs.size(); i++) {
+				InterestDongDto interestLoc = interestLocs.get(i);
+				LocationDto dongInfo = locationService.getDong(interestLoc.getDongCode());
+				
+				if(dongInfo != null) {
+					dongInfos.put(i+1,dongInfo);
+				}
+			}
+			
+			
 			PageNavigation navigation = interestDongService.makePageNavigation(conditions);
 
 			Map<String, Object> response = new HashMap<String, Object>();
 			response.put("interestLocs", interestLocs);
 			response.put("navigation", navigation);
+			response.put("dongInfos", dongInfos);
 
 			return ResponseEntity.ok(response);
 
@@ -95,7 +110,7 @@ public class InterestDongController {
 
 	@ApiOperation(value = "관심 지역 삭제")
 	@DeleteMapping("/{dongCode}")
-	public ResponseEntity<?> removeInterestDong(@PathVariable String dongCode, @RequestBody String userId) {
+	public ResponseEntity<?> removeInterestDong(@PathVariable String dongCode, @RequestParam String userId) {
 
 		InterestDongDto interestDong = interestDongService.getInterestDong(new InterestDongDto(userId, dongCode));
 

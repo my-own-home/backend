@@ -1,5 +1,6 @@
 package com.housematch.house.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +18,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.housematch.house.model.dto.AptDealRecordDto;
+import com.housematch.house.model.dto.AptInfoDto;
 import com.housematch.house.model.dto.AptReviewDto;
+import com.housematch.house.model.service.AptInfoService;
 import com.housematch.house.model.service.AptReviewService;
+import com.housematch.interest.model.dto.InterestAptDto;
 import com.housematch.util.PageNavigation;
 
 import io.swagger.annotations.Api;
@@ -31,6 +36,8 @@ public class AptReviewController {
 	
 	@Autowired
 	private AptReviewService aptReviewService;
+	@Autowired
+	private AptInfoService aptInfoService;
 	
 	@ApiOperation(value = "리뷰 목록 조회")
 	@GetMapping
@@ -51,6 +58,42 @@ public class AptReviewController {
 		response.put("reviews", reviews);
 		response.put("navigation", navigation);
 
+		return ResponseEntity.ok(response);
+	}
+	
+	@ApiOperation(value = "사용자 리뷰 목록 조회")
+	@GetMapping("/user")
+	public ResponseEntity<?> getUserReviewList(@RequestParam(required = false) String uid, @RequestParam(required = false) Integer pgno) {
+		Map<String, String> conditions = new HashMap<String, String>();
+		
+		if (pgno != null) {
+			conditions.put("pgno", Integer.toString(pgno));
+		} else {
+			conditions.put("pgno", "1");
+		}
+		
+		List<AptReviewDto> reviews = aptReviewService.getUserReviewList(uid);
+		List<String> aptNames = new ArrayList<String>();
+		
+		for (int i = 0; i < reviews.size(); i++) {
+			AptReviewDto review = reviews.get(i);
+			AptInfoDto aptInfo = aptInfoService.getAptInfo(review.getAptCode());
+		
+			String aptName = aptInfo.getAptName();
+			
+			if(aptName != null) {
+				aptNames.add(aptName);
+			}
+		}
+				
+		PageNavigation navigation = aptReviewService.makePageNavigation(conditions);
+		
+		
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("reviews", reviews);
+		response.put("navigation", navigation);
+		response.put("aptNames", aptNames);
+		
 		return ResponseEntity.ok(response);
 	}
 
@@ -113,7 +156,7 @@ public class AptReviewController {
 	
 	@ApiOperation(value = "리뷰 삭제")
 	@DeleteMapping("/{no}")
-	public ResponseEntity<?> removeAptReview(@PathVariable int no, @RequestBody AptReviewDto request) {
+	public ResponseEntity<?> removeAptReview(@PathVariable int no, @RequestParam AptReviewDto request) {
 		
 		String userId = request.getUid();
 		AptReviewDto aptReviewDto = request;

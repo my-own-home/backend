@@ -11,6 +11,8 @@ import com.housematch.house.model.dto.AptReviewDto;
 public interface AptReviewMapper {
 
 	List<AptReviewDto> selectAptReviewList(long aptCode);
+	
+	List<AptReviewDto> selectUserReviewList(String uid);
 
 	AptReviewDto selectAptReview(int no);
 

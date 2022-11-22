@@ -1,5 +1,6 @@
 package com.housematch.interest.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.housematch.house.model.dto.AptDealRecordDto;
+import com.housematch.house.model.dto.AptInfoDto;
+import com.housematch.house.model.service.AptDealRecordService;
+import com.housematch.house.model.service.AptInfoService;
 import com.housematch.interest.model.dto.InterestAptDto;
 import com.housematch.interest.model.service.InterestAptService;
 import com.housematch.user.model.dto.UserDto;
@@ -32,11 +37,15 @@ public class InterestAptController {
 	private UserService userService;
 	@Autowired
 	private InterestAptService interestAptService;
+	@Autowired
+	private AptInfoService aptInfoService;
+	@Autowired
+	private AptDealRecordService aptDealRecordService;
 
 	@ApiOperation(value = "관심 아파트 목록 조회")
 	@GetMapping
 	public ResponseEntity<?> getInterestAptList(@RequestParam(required = false) Integer pgno,
-			@RequestBody String userId) {
+			@RequestParam String userId) {
 
 		UserDto user = userService.getUser(userId);
 
@@ -52,11 +61,29 @@ public class InterestAptController {
 			}
 
 			List<InterestAptDto> interestApts = interestAptService.getInterestAptList(conditions);
+			Map<Integer,AptInfoDto > aptInfos = new HashMap<Integer, AptInfoDto>();
+			
+			List<Integer> recentPrice = new ArrayList<>();
+			
+			for (int i = 0; i < interestApts.size(); i++) {
+				InterestAptDto interestApt = interestApts.get(i);
+				AptInfoDto aptInfo = aptInfoService.getAptInfo(interestApt.getAptCode());
+				
+				AptDealRecordDto aptDealRecord = aptDealRecordService.getAptDealRecordList(interestApt.getAptCode()).get(0);
+				recentPrice.add(Integer.parseInt(aptDealRecord.getDealAmount().replace(",", "")));
+				
+				if(aptInfo != null) {
+					aptInfos.put(i+1,aptInfo);
+				}
+			}
+			
 			PageNavigation navigation = interestAptService.makePageNavigation(conditions);
-
+			
 			Map<String, Object> response = new HashMap<String, Object>();
 			response.put("interestApts", interestApts);
 			response.put("navigation", navigation);
+			response.put("aptInfos", aptInfos);
+			response.put("recentPrice", recentPrice);
 
 			return ResponseEntity.ok(response);
 
@@ -93,7 +120,7 @@ public class InterestAptController {
 
 	@ApiOperation(value = "관심 아파트 삭제")
 	@DeleteMapping("/{aptCode}")
-	public ResponseEntity<?> removeInterestApt(@PathVariable long aptCode, @RequestBody String userId) {
+	public ResponseEntity<?> removeInterestApt(@PathVariable long aptCode, @RequestParam String userId) {
 
 		InterestAptDto interestApt = interestAptService.getInterestApt(new InterestAptDto(userId, aptCode));
 

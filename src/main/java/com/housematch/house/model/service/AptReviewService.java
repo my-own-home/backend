@@ -9,6 +9,8 @@ import com.housematch.util.PageNavigation;
 public interface AptReviewService {
 	
 	List<AptReviewDto> getAptReviewList(long aptCode);
+	
+	List<AptReviewDto> getUserReviewList(String uid);
 
 	AptReviewDto getAptReview(int no);
 

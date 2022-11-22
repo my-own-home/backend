@@ -28,6 +28,11 @@ public class AptReviewServiceImpl implements AptReviewService {
 	public List<AptReviewDto> getAptReviewList(long aptCode) {
 		return aptReviewMapper.selectAptReviewList(aptCode);
 	}
+	
+	@Override
+	public List<AptReviewDto> getUserReviewList(String uid) {
+		return aptReviewMapper.selectUserReviewList(uid);
+	}
 
 	@Override
 	public AptReviewDto getAptReview(int no) {
