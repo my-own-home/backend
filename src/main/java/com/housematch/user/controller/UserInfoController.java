@@ -112,32 +112,4 @@ public class UserInfoController {
 		
 	}
 	
-	@ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
-	@PostMapping("/login")
-	public ResponseEntity<Map<String, Object>> login(
-			@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) UserDto userDto) {
-		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = null;
-		try {
-			System.out.println("2222222222222222222");
-			UserDto loginUser = userService.login(userDto);
-			System.out.println(loginUser);
-			if (loginUser != null) {
-				String token = jwtService.create("userid", loginUser.getId(), "access-token");// key, data, subject
-				logger.debug("로그인 토큰정보 : {}", token);
-				resultMap.put("access-token", token);
-				resultMap.put("message", SUCCESS);
-				status = HttpStatus.ACCEPTED;
-			} else {
-				resultMap.put("message", FAIL);
-				status = HttpStatus.ACCEPTED;
-			}
-		} catch (Exception e) {
-			logger.error("로그인 실패 : {}", e);
-			resultMap.put("message", e.getMessage());
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-	}
-
 }
