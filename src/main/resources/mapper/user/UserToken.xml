@@ -36,13 +36,13 @@
 	<update id="saveRefreshToken" parameterType="map">
 		update app_user
 		set token = #{token}
-		where user_id = #{id}
+		where user_id = #{userid}
 	</update>
 	
 	<update id="deleteRefreshToken" parameterType="map">
 		update app_user
 		set token = #{token, jdbcType=VARCHAR}
-		where user_id = #{id}
+		where user_id = #{userid}
 	</update>
 	
 
