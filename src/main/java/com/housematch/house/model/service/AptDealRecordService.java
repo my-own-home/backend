@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.housematch.house.model.dto.AptDealRecordDto;
+import com.housematch.house.model.dto.AptDealRecordStatDto;
 import com.housematch.util.PageNavigation;
 
 public interface AptDealRecordService {
@@ -14,5 +15,5 @@ public interface AptDealRecordService {
 
 	PageNavigation makePageNavigation(Map<String, Object> map);
 
-	Map<String, List<AptDealRecordDto>> getAptDealRecordMonthlyAvgByArea(long aptCode);
+	Map<String, List<AptDealRecordStatDto>> getAptDealRecordMonthlyAvgByArea(long aptCode);
 }

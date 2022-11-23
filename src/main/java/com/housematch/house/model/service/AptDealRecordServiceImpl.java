@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.housematch.house.model.dto.AptDealRecordDto;
+import com.housematch.house.model.dto.AptDealRecordStatDto;
 import com.housematch.house.model.mapper.AptDealRecordMapper;
 import com.housematch.util.PageNavigation;
 import com.housematch.util.SizeConstant;
@@ -67,17 +68,17 @@ public class AptDealRecordServiceImpl implements AptDealRecordService {
 	}
 
 	@Override
-	public Map<String, List<AptDealRecordDto>> getAptDealRecordMonthlyAvgByArea(long aptCode) {
-		List<AptDealRecordDto> records = aptDealRecordMapper.selectAptDealMonthlyAvgByArea(aptCode);
+	public Map<String, List<AptDealRecordStatDto>> getAptDealRecordMonthlyAvgByArea(long aptCode) {
+		List<AptDealRecordStatDto> records = aptDealRecordMapper.selectAptDealMonthlyAvgByArea(aptCode);
 		List<String> areas = aptDealRecordMapper.getAptAreas(aptCode);
 
-		Map<String, List<AptDealRecordDto>> ordered = new HashMap<String, List<AptDealRecordDto>>();
+		Map<String, List<AptDealRecordStatDto>> ordered = new HashMap<String, List<AptDealRecordStatDto>>();
 
 		for (String area : areas) {
-			ordered.put(area, new ArrayList<AptDealRecordDto>());
+			ordered.put(area, new ArrayList<AptDealRecordStatDto>());
 		}
 
-		for (AptDealRecordDto record : records) {
+		for (AptDealRecordStatDto record : records) {
 			ordered.get(record.getArea()).add(record);
 		}
 

@@ -15,6 +15,18 @@
 		<result column="floor" property="floor"/>
 	</resultMap>
 	
+	<resultMap type="AptDealRecordStatDto" id="AptDealRecordStatDtoMap">
+		<result column="apt_code" property="aptCode"/>
+		<result column="monthly_avg" property="dealAmount"/>
+		<result column="deal_year" property="dealYear"/>
+		<result column="deal_month" property="dealMonth"/>
+		<result column="area" property="area"/>
+		<result column="floor" property="floor"/>
+		<result column="min" property="min"/>
+		<result column="max" property="max"/>
+	</resultMap>
+	
+	
 	<sql id="basicSelectSQL">
 		select id, apt_code, deal_amount, deal_year, deal_month, deal_day, area, floor, cancel_deal_type
 		from apt_deal_record
@@ -48,8 +60,8 @@
 		where apt_code = #{aptCode}
 	</select>
 	
-	<select id="selectAptDealMonthlyAvgByArea" parameterType="long" resultMap="AptDealRecordDtoMap">
-        select area, deal_year, deal_month, round(avg(REPLACE(deal_amount, ',', ''))) as deal_amount 
+	<select id="selectAptDealMonthlyAvgByArea" parameterType="long" resultMap="AptDealRecordStatDtoMap">
+        select apt_code, area, deal_year, deal_month, round(avg(deal_amount)) as monthly_avg, max(deal_amount) as max, min(deal_amount) as min
         from apt_deal_record 
 		where apt_code = #{aptCode}
         group by area, deal_year, deal_month;
