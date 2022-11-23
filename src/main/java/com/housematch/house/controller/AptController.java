@@ -1,6 +1,7 @@
 package com.housematch.house.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.housematch.house.model.dto.AptDealRecordDto;
 import com.housematch.house.model.service.AptDealRecordService;
 import com.housematch.house.model.service.AptDetailService;
 import com.housematch.house.model.service.AptInfoService;
+import com.housematch.util.PageNavigation;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -50,19 +53,45 @@ public class AptController {
 
 	@ApiOperation(value = "아파트 실거래가 목록 조회")
 	@GetMapping("/{aptCode}/deals")
-	public ResponseEntity<?> getAptDealRecordList(@PathVariable long aptCode) {
-		return ResponseEntity.ok(aptDealRecordService.getAptDealRecordList(aptCode));
+	public ResponseEntity<?> getAptDealRecordList(@PathVariable long aptCode,
+			@RequestParam(required = false) Integer pgno) {
+
+		Map<String, Object> conditions = new HashMap<String, Object>();
+
+		if (pgno != null) {
+			conditions.put("pgno", pgno);
+		} else {
+			conditions.put("pgno", 1);
+		}
+
+		conditions.put("aptCode", aptCode);
+		
+		List<AptDealRecordDto> deals = aptDealRecordService.getAptDealRecordListWithPage(conditions);
+		PageNavigation navigation = aptDealRecordService.makePageNavigation(conditions);
+		
+		Map<String, Object> response = new HashMap<String, Object>();
+		response.put("deals", deals);
+		response.put("navigation", navigation);
+
+		return ResponseEntity.ok(response);
 	}
 
-	@ApiOperation(value = "아파트 실거래가 목록 조회")
+	@ApiOperation(value = "basic + detail")
 	@GetMapping("/{aptCode}/all")
 	public ResponseEntity<?> getAptAll(@PathVariable long aptCode) {
 		Map<String, Object> apt = new HashMap<String, Object>();
 		apt.put("basic", aptInfoService.getAptInfo(aptCode));
 		apt.put("detail", aptDetailService.getAptDetail(aptCode));
 //		apt.put("deals", aptDealRecordService.getAptDealRecordList(aptCode));		
-		
+
 		return ResponseEntity.ok(apt);
 	}
 
+	@ApiOperation(value = "Monthly Average")
+	@GetMapping("/{aptCode}/deals/monthly-avg")
+	public ResponseEntity<?> getAptDealRecordAvg(@PathVariable long aptCode) {
+		return ResponseEntity.ok(aptDealRecordService.getAptDealRecordMonthlyAvgByArea(aptCode));
+	}
+
+	
 }

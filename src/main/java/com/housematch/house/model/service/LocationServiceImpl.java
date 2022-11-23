@@ -24,6 +24,11 @@ public class LocationServiceImpl implements LocationService {
 	public LocationDto getDong(String dongCode) {
 		return locationMapper.selectDong(dongCode);
 	}
+	
+	@Override
+	public LocationDto getDongDetail(String dongCode) {
+		return locationMapper.selectDongDetail(dongCode);
+	}
 
 	@Override
 	public List<LocationDto> getDongList(String dongCode) {

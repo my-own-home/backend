@@ -8,6 +8,8 @@ public interface LocationService {
 
 	LocationDto getDong(String dongCode);
 	
+	LocationDto getDongDetail(String dongCode);
+
 	List<LocationDto> getDongList(String dongCode);
 
 	List<LocationDto> getGugunList(String dongCode);

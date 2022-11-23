@@ -11,6 +11,8 @@ public interface LocationMapper {
 
 	LocationDto selectDong(String dongCode);
 	
+	LocationDto selectDongDetail(String dongCode);
+	
 	List<LocationDto> selectDongList(String dongCode);
 
 	List<LocationDto> selectGugunList(String dongCode);

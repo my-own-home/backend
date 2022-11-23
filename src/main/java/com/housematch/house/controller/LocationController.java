@@ -27,6 +27,13 @@ public class LocationController {
 		return ResponseEntity.ok(locationService.getDong(dongCode));
 	}
 
+	@ApiOperation(value = "동 조회")
+	@GetMapping("/{dongCode}/detail")
+	public ResponseEntity<?> getDongDetail(@PathVariable String dongCode){
+		return ResponseEntity.ok(locationService.getDongDetail(dongCode));
+	}
+
+	
 	@ApiOperation(value = "동 목록 조회")
 	@GetMapping("/dong/{dongCode}")
 	public ResponseEntity<?> getDongList(@PathVariable String dongCode){

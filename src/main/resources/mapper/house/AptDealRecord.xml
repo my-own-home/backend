@@ -15,11 +15,43 @@
 		<result column="floor" property="floor"/>
 	</resultMap>
 	
-	<select id="selectAptDealRecordList" parameterType="long" resultMap="AptDealRecordDtoMap">
+	<sql id="basicSelectSQL">
 		select id, apt_code, deal_amount, deal_year, deal_month, deal_day, floor, cancel_deal_type
 		from apt_deal_record
 		where apt_code = #{aptCode}
 		order by id desc
+	</sql>
+	
+	<select id="selectAptDealRecordList" parameterType="long" resultMap="AptDealRecordDtoMap">
+		<include refid="basicSelectSQL" />
 	</select>
-
+	
+	<select id="selectAptDealRecordListWithPage" parameterType="map" resultMap="AptDealRecordDtoMap">
+		<include refid="basicSelectSQL" />
+		limit #{start}, #{listsize}
+	</select>
+	
+	<select id="selectRecentAptDealRecordList" parameterType="long" resultMap="AptDealRecordDtoMap">
+		<include refid="basicSelectSQL" />
+		limit 1
+	</select>
+	
+	<select id="getAptDealRecordCount" parameterType="long" resultType="int">
+		select count(*)
+		from apt_deal_record
+		where apt_code = #{aptCode}
+	</select>
+	
+	<select id="getAptAreas" parameterType="long" resultType="string">
+		select distinct(area)
+		from apt_deal_record
+		where apt_code = #{aptCode}
+	</select>
+	
+	<select id="selectAptDealMonthlyAvgByArea" parameterType="long" resultMap="AptDealRecordDtoMap">
+        select area, deal_year, deal_month, round(avg(REPLACE(deal_amount, ',', ''))) as deal_amount 
+        from apt_deal_record 
+		where apt_code = #{aptCode}
+        group by area, deal_year, deal_month;
+	</select>
 </mapper>
