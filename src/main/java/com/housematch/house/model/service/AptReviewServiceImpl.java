@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.housematch.house.model.dto.AptReviewDto;
+import com.housematch.house.model.dto.AptReviewStatDto;
 import com.housematch.house.model.mapper.AptReviewMapper;
 import com.housematch.util.PageNavigation;
 import com.housematch.util.SizeConstant;
@@ -16,19 +17,19 @@ import com.housematch.util.SizeConstant;
 @Service
 @Transactional
 public class AptReviewServiceImpl implements AptReviewService {
-	
+
 	private AptReviewMapper aptReviewMapper;
-	
+
 	@Autowired
 	public AptReviewServiceImpl(AptReviewMapper aptReviewMapper) {
 		this.aptReviewMapper = aptReviewMapper;
 	}
-	
+
 	@Override
 	public List<AptReviewDto> getAptReviewList(long aptCode) {
 		return aptReviewMapper.selectAptReviewList(aptCode);
 	}
-	
+
 	@Override
 	public List<AptReviewDto> getUserReviewList(String uid) {
 		return aptReviewMapper.selectUserReviewList(uid);
@@ -54,7 +55,7 @@ public class AptReviewServiceImpl implements AptReviewService {
 	public boolean removeAptReview(int no) {
 		return aptReviewMapper.deleteAptReview(no) > 0;
 	}
-	
+
 	@Override
 	public PageNavigation makePageNavigation(Map<String, String> map) {
 		PageNavigation pageNavigation = new PageNavigation();
@@ -82,6 +83,11 @@ public class AptReviewServiceImpl implements AptReviewService {
 		pageNavigation.makeNavigator();
 
 		return pageNavigation;
+	}
+
+	@Override
+	public AptReviewStatDto getAvgAptReview(long aptCode) {
+		return aptReviewMapper.getAvgAptReview(aptCode);
 	}
 
 }

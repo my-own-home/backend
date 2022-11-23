@@ -16,13 +16,16 @@ public class AptReviewDto {
 	private String uid;
 	
 	private int	score;
+	private int scoreSafety;
 	private int scoreTransport;
 	private int	scoreNature;
 	private int	scoreEdu;
 	private int	scoreLife;
+	
 	@NonNull
 	private String content;
 	private String regTime;
 	private String upTime;
+	private int likeCount;
 	
 }

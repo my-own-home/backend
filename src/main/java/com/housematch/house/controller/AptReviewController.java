@@ -30,7 +30,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @Controller
-@RequestMapping("/api/apt")
+@RequestMapping("/api/apts/reviews")
 @Api(value = "리뷰 Controller")
 public class AptReviewController {
 	
@@ -117,7 +117,7 @@ public class AptReviewController {
 		boolean res = aptReviewService.addAptReview(aptReviewDto);
 
 		if (res) {
-			return ResponseEntity.ok("공지사항이 등록되었습니다.");
+			return ResponseEntity.ok("리뷰가 등록되었습니다.");
 		} else {
 			return ResponseEntity.internalServerError().build();
 		}
@@ -184,6 +184,20 @@ public class AptReviewController {
 		} else {
 			return ResponseEntity.notFound().build();
 		}
-		
 	}
+	
+	@ApiOperation(value = "리뷰 목록 조회")
+	@GetMapping("/avg")
+	public ResponseEntity<?> getAvgAptReview(@RequestParam(required = true) long aptCode) {
+		AptInfoDto aptInfo = aptInfoService.getAptInfo(aptCode);
+		
+		if (aptInfo != null) {
+			return ResponseEntity.ok(aptReviewService.getAvgAptReview(aptCode));
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+
+	
+	
 }

@@ -11,6 +11,7 @@
 		<result column="apt_code" property="aptCode" />
 		<result column="user_id" property="uid" />
 		<result column="score_stars" property="score" />
+		<result column="score_safety" property="scoreSafety" />
 		<result column="score_transport" property="scoreTransport" />
 		<result column="score_nature" property="scoreNature" />
 		<result column="score_edu" property="scoreEdu" />
@@ -18,9 +19,19 @@
 		<result column="content" property="content" />
 		<result column="register_time" property="regTime" />
 		<result column="update_time" property="upTime" />
+		<result column="likes" property="likeCount" />		
 	</resultMap>
-
-
+	
+	<resultMap type="AptReviewStatDto" id="AptReviewStatDtoMap">
+		<result column="apt_code" property="aptCode" />
+		<result column="score_stars" property="score" />
+		<result column="score_safety" property="scoreSafety" />
+		<result column="score_transport" property="scoreTransport" />
+		<result column="score_nature" property="scoreNature" />
+		<result column="score_edu" property="scoreEdu" />
+		<result column="score_life" property="scoreLife" />
+	</resultMap>
+	
 	<!-- SQL -->
 	<sql id="basicSelectSQL">
 		select *
@@ -48,14 +59,14 @@
 
 	<insert id="insertAptReview" parameterType="AptReviewDto">
 		insert into apt_review(user_id, apt_code, 
-			score_stars, score_transport, score_nature, score_edu, score_life, content, register_time)
-		values (#{uid}, #{aptCode},	#{score}, #{scoreTransport}, #{scoreNature}, #{scoreEdu},
+			score_stars, score_safety, score_transport, score_nature, score_edu, score_life, content, register_time)
+		values (#{uid}, #{aptCode},	#{score}, #{scoreSafety}, #{scoreTransport}, #{scoreNature}, #{scoreEdu},
 			#{scoreLife}, #{content}, now())
 	</insert>
 
 	<update id="updateAptReview" parameterType="AptReviewDto">
 		update apt_review
-		set score_stars = #{score}, score_transport = #{scoreTransport}, score_nature = #{scoreNature}, 
+		set score_stars = #{score}, score_safety = #{scoreSafety}, score_transport = #{scoreTransport}, score_nature = #{scoreNature}, 
 			score_edu = #{scoreEdu}, score_life = #{scoreLife}, content = #{content}, 
 			update_time = now()
 		where review_no = #{no}
@@ -69,6 +80,15 @@
 	<select id="getTotalReviewCount" parameterType="map" resultType="int">
 		select count(*)
 		from apt_review
+		where apt_code = #{aptCode}
+	</select>
+	
+	<select id="getAvgAptReview" parameterType="long" resultMap="AptReviewStatDtoMap">
+		select apt_code, round(avg(score_stars),2) as score_stars, round(avg(score_safety),2) as score_safety, 
+			round(avg(score_transport),2) as score_transport, round(avg(score_nature),2) as score_nature, 
+			round(avg(score_edu),2) as score_edu, round(avg(score_life),2) as score_life 
+		from apt_review 
+		where apt_code = #{aptCode}
 	</select>
 	
 </mapper>

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.housematch.house.model.dto.AptReviewDto;
+import com.housematch.house.model.dto.AptReviewStatDto;
 import com.housematch.util.PageNavigation;
 
 public interface AptReviewService {
@@ -21,5 +22,7 @@ public interface AptReviewService {
 	boolean removeAptReview(int no);
 
 	PageNavigation makePageNavigation(Map<String, String> map);
+
+	AptReviewStatDto getAvgAptReview(long aptCode);
 
 }
