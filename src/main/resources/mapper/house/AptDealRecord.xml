@@ -16,7 +16,7 @@
 	</resultMap>
 	
 	<sql id="basicSelectSQL">
-		select id, apt_code, deal_amount, deal_year, deal_month, deal_day, floor, cancel_deal_type
+		select id, apt_code, deal_amount, deal_year, deal_month, deal_day, area, floor, cancel_deal_type
 		from apt_deal_record
 		where apt_code = #{aptCode}
 		order by id desc

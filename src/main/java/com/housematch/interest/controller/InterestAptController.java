@@ -70,7 +70,7 @@ public class InterestAptController {
 				AptInfoDto aptInfo = aptInfoService.getAptInfo(interestApt.getAptCode());
 				
 				AptDealRecordDto aptDealRecord = aptDealRecordService.getAptDealRecordList(interestApt.getAptCode()).get(0);
-				recentPrice.add(Integer.parseInt(aptDealRecord.getDealAmount().replace(",", "")));
+				recentPrice.add(Integer.parseInt(aptDealRecord.getDealAmount()));
 				
 				if(aptInfo != null) {
 					aptInfos.put(i+1,aptInfo);
