@@ -63,7 +63,7 @@
 	<select id="selectAptDealMonthlyAvgByArea" parameterType="long" resultMap="AptDealRecordStatDtoMap">
         select apt_code, area, deal_year, deal_month, round(avg(deal_amount)) as monthly_avg, max(deal_amount) as max, min(deal_amount) as min
         from apt_deal_record 
-		where apt_code = #{aptCode}
+		where apt_code = #{aptCode} and extract(year from curdate()) - deal_year &lt;= 3
         group by area, deal_year, deal_month;
 	</select>
 </mapper>

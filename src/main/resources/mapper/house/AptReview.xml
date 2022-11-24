@@ -43,6 +43,7 @@
 	<select id="selectAptReviewList" parameterType="long" resultMap="AptReviewDtoMap">
 		<include refid="basicSelectSQL" />
 		where apt_code = #{aptCode}
+		order by review_no desc
 	</select>
 
 	<!-- 사용자 리뷰 목록 조회 -->
