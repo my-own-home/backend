@@ -14,7 +14,7 @@
 
 	<!-- SQL -->
 	<sql id="basicSelectSQL">
-		select *
+		select user_id, interest_type, priority
 		from app_user_interest
 		where user_id = #{id}
 	</sql>

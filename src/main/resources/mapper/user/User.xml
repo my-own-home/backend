@@ -11,7 +11,11 @@
 		<result column="email" property="email"/>
 		<result column="register_time" property="regTime"/>
 	</resultMap>
-
+	
+	<resultMap type="UserDto" id="UserDtoDetailedMap" extends="UserDtoMap">
+		<collection property="types" resultMap="com.housematch.interest.model.mapper.InterestTypeMapper.InterestTypeDtoMap"/>
+	</resultMap>
+	
 	<select id="selectUser" parameterType="string" resultMap="UserDtoMap">
 		select user_id, fullname, email, register_time
 		from app_user
@@ -19,7 +23,14 @@
 			user_id = #{id}
 		</where>
 	</select>
-
+	
+	<select id="selectUserWithType" parameterType="string" resultMap="UserDtoDetailedMap">
+		select				u.user_id, u.fullname, u.email, u.token, u.register_time, i.interest_type
+		from				app_user u
+		left outer 	join	app_user_interest i on(u.user_id = i.user_id)
+		where	u.user_id = #{id};
+	</select>
+	
 	<insert id="insertUser" parameterType="UserDto">
 		insert into app_user (user_id, password, fullname, email, register_time)
 		values (#{id}, #{pw}, #{name}, #{email}, now())

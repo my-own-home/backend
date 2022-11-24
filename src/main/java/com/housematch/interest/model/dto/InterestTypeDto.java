@@ -18,5 +18,5 @@ public class InterestTypeDto {
 	private Integer type;
 	private String typeName;
 	private Integer priority;
-
+		
 }

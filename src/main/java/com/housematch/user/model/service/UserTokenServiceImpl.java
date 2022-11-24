@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.housematch.user.model.dto.UserDto;
+import com.housematch.user.model.mapper.UserMapper;
 import com.housematch.user.model.mapper.UserTokenMapper;
 
 @Service
@@ -28,7 +29,7 @@ public class UserTokenServiceImpl implements UserTokenService {
 
 	@Override
 	public UserDto userInfo(String userid) throws Exception {
-		return sqlSession.getMapper(UserTokenMapper.class).selectUser(userid);
+		return sqlSession.getMapper(UserMapper.class).selectUserWithType(userid);
 	}
 
 	@Override

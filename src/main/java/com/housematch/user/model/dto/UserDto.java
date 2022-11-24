@@ -1,5 +1,9 @@
 package com.housematch.user.model.dto;
 
+import java.util.List;
+
+import com.housematch.interest.model.dto.InterestTypeDto;
+
 import lombok.Data;
 
 @Data
@@ -10,7 +14,7 @@ public class UserDto {
 	private String name;
 	private String email;
 	private String regTime; // 자동 생성
-	private String[] types;
+	private List<InterestTypeDto> types;
 
 	public UserDto(String id, String pw, String name, String email, String regTime) {
 		super();
@@ -27,9 +31,9 @@ public class UserDto {
 		this.name = name;
 		this.email = email;
 		this.regTime = regTime;
-	}	
-	
-	public UserDto(String id, String pw, String name, String email, String[] types) {
+	}
+
+	public UserDto(String id, String pw, String name, String email, List<InterestTypeDto> types) {
 		super();
 		this.id = id;
 		this.pw = pw;
@@ -37,7 +41,6 @@ public class UserDto {
 		this.email = email;
 		this.types = types;
 	}
-
 
 	public UserDto() {
 		super();

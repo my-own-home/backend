@@ -9,6 +9,8 @@ public interface UserMapper {
 	
 	UserDto selectUser(String id);
 	
+	UserDto selectUserWithType(String id);
+
 	int insertUser(UserDto user);
 	
 	int updateUser(UserDto user);
