@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.housematch.interest.model.dto.InterestTypeDto;
 import com.housematch.user.model.dto.UserDto;
 import com.housematch.user.model.mapper.UserMapper;
 import com.housematch.user.model.mapper.UserTokenMapper;
@@ -17,14 +18,24 @@ public class UserTokenServiceImpl implements UserTokenService {
 	@Autowired
 	private SqlSession sqlSession;
 
+	private static String[] typeNames = { "", "교육", "환경", "안전", "교통", "생활" };
+
 	@Override
 	public UserDto login(UserDto userDto) throws Exception {
 		if (userDto.getId() == null || userDto.getPw() == null)
 			return null;
-		System.out.println("UserTokenService login");
-		System.out.println(userDto);
-		
-		return sqlSession.getMapper(UserTokenMapper.class).login(userDto);
+
+		UserDto response = sqlSession.getMapper(UserTokenMapper.class).login(userDto);
+		if (response != null) {
+			UserDto ans = sqlSession.getMapper(UserMapper.class).selectUserWithType(response.getId());
+			for (InterestTypeDto type : ans.getTypes()) {
+				type.setTypeName(typeNames[type.getType()]);
+			}
+			System.out.println(ans);
+			return ans;
+		}
+
+		return response;
 	}
 
 	@Override
@@ -54,4 +65,3 @@ public class UserTokenServiceImpl implements UserTokenService {
 	}
 
 }
-

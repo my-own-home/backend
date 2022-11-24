@@ -94,7 +94,7 @@ public class InterestAptController {
 
 	@ApiOperation(value = "관심 아파트 추가")
 	@PostMapping("/{aptCode}")
-	public ResponseEntity<?> addInterestApt(@PathVariable long aptCode, @RequestBody String userId) {
+	public ResponseEntity<?> addInterestApt(@PathVariable long aptCode, @RequestParam String userId) {
 
 		UserDto user = userService.getUser(userId);
 

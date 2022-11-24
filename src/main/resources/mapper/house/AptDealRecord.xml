@@ -40,7 +40,7 @@
 	
 	<select id="selectAptDealRecordListWithPage" parameterType="map" resultMap="AptDealRecordDtoMap">
 		<include refid="basicSelectSQL" />
-		limit #{start}, #{listsize}
+		limit #{start}, 5
 	</select>
 	
 	<select id="selectRecentAptDealRecordList" parameterType="long" resultMap="AptDealRecordDtoMap">

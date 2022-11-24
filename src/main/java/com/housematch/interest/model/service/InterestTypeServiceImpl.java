@@ -19,7 +19,6 @@ public class InterestTypeServiceImpl implements InterestTypeService {
 
 	@Override
 	public List<InterestTypeDto> getInterestTypeList(String userId) {
-
 		List<InterestTypeDto> list = interestTypeMapper.selectInterestTypes(userId);
 
 		for (InterestTypeDto type : list) {
