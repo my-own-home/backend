@@ -17,7 +17,6 @@ public class QuestionDto {
 	private String uid;
 	@NonNull
 	private String subject;
-	@NonNull
 	private String content;
 	private String regTime; // 자동 생성
 	private String upTime; // 자동 생성
