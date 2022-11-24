@@ -1,6 +1,7 @@
 package com.housematch.interest.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,4 +29,18 @@ public class InterestTypeServiceImpl implements InterestTypeService {
 		return list;
 	}
 
+	@Override
+	public boolean addInterestTypeList(Map<String, Object> request) {
+		String[] types = (String[]) request.get("types");
+		String id = (String) request.get("id");
+		
+		for (String type: types) {
+			int res = interestTypeMapper.insertInterestType(new InterestTypeDto(id, Integer.parseInt(type)));
+			
+			if (res <= 0)
+				return false;
+		}
+		
+		return true;
+	}
 }

@@ -10,4 +10,6 @@ import com.housematch.interest.model.dto.InterestTypeDto;
 public interface InterestTypeMapper {
 
 	List<InterestTypeDto> selectInterestTypes(String userId);
+
+	int insertInterestType(InterestTypeDto type);
 }

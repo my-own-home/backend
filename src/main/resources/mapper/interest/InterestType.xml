@@ -23,5 +23,11 @@
 		<include refid="basicSelectSQL" />
 		order by priority
 	</select>
+	
+	<insert id="insertInterestType" parameterType="InterestTypeDto">
+		insert into app_user_interest 
+		values (#{id}, #{type}, 0)
+	</insert>
+	
 
 </mapper>

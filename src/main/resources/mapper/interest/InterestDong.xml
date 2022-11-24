@@ -38,8 +38,6 @@
 		(select concat(sido_name, " ", gugun_name, " ", jibun_name) 
 		from apt_info where apt_code=#{dongCode})
 		)
-		
-	
 	</insert>
 
 	<delete id="deleteInterestDong" parameterType="InterestDongDto">
