@@ -28,8 +28,10 @@ public class UserTokenServiceImpl implements UserTokenService {
 		UserDto response = sqlSession.getMapper(UserTokenMapper.class).login(userDto);
 		if (response != null) {
 			UserDto ans = sqlSession.getMapper(UserMapper.class).selectUserWithType(response.getId());
-			for (InterestTypeDto type : ans.getTypes()) {
-				type.setTypeName(typeNames[type.getType()]);
+			if (ans.getTypes() != null) {
+				for (InterestTypeDto type : ans.getTypes()) {
+					type.setTypeName(typeNames[type.getType()]);
+				}
 			}
 			System.out.println(ans);
 			return ans;

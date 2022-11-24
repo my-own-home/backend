@@ -9,6 +9,7 @@
 	<resultMap type="InterestTypeDto" id="InterestTypeDtoMap">
 		<result column="user_id" property="id" />
 		<result column="interest_type" property="type" />
+		<result column= "type_name" property="type"/>
 		<result column="priority" property="priority" />
 	</resultMap>
 
