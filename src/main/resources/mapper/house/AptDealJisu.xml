@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.housematch.house.model.mapper.AptDealJisuMapper">
+
+	<resultMap type="AptDealJisuDto" id="AptDealJisuDtoMap">
+		<result column="loc" property="loc"/>
+		<result column="21nov" property="nov21"/>
+		<result column="21dec" property="dec21"/>
+		<result column="22jan" property="jan22"/>
+		<result column="22feb" property="feb22"/>
+		<result column="22mar" property="mar22"/>
+		<result column="22apr" property="apr22"/>
+		<result column="22may" property="may22"/>
+		<result column="22jun" property="jun22"/>
+		<result column="22jul" property="jul22"/>
+		<result column="22aug" property="aug22"/>
+		<result column="22sep" property="sep22"/>
+		<result column="22oct" property="oct22"/>
+	</resultMap>
+
+	<select id="selectAptDealJisu" parameterType="string" resultMap="AptDealJisuDtoMap">
+		select *
+		from apt_deal_jisu_by_gu
+		where loc = #{loc}
+	</select>
+
+</mapper>
