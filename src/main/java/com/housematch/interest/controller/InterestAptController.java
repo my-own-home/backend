@@ -91,6 +91,27 @@ public class InterestAptController {
 			return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
 		}
 	}
+	
+	@ApiOperation(value = "관심 아파트 조회")
+	@GetMapping("/{aptCode}")
+	public ResponseEntity<?> checkIfInterestApt(@PathVariable long aptCode,@RequestParam String userId) {
+
+		UserDto user = userService.getUser(userId);
+
+		if (user != null) {
+			
+			InterestAptDto res = new InterestAptDto(userId, aptCode);
+			
+			if (interestAptService.checkDuplicateInterestApt(res)) {
+				return ResponseEntity.ok("interested");	
+			} else {
+				return ResponseEntity.ok("not interested");
+			}
+		} else {
+			return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+		}
+	}
+
 
 	@ApiOperation(value = "관심 아파트 추가")
 	@PostMapping("/{aptCode}")

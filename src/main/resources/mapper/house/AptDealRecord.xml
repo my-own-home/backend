@@ -57,7 +57,7 @@
 	<select id="getAptAreas" parameterType="long" resultType="string">
 		select distinct(area)
 		from apt_deal_record
-		where apt_code = #{aptCode}
+		where apt_code = #{aptCode} and extract(year from curdate()) - deal_year &lt;= 3
 	</select>
 	
 	<select id="selectAptDealMonthlyAvgByArea" parameterType="long" resultMap="AptDealRecordStatDtoMap">
