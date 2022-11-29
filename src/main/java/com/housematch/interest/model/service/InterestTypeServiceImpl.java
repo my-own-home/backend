@@ -30,16 +30,16 @@ public class InterestTypeServiceImpl implements InterestTypeService {
 
 	@Override
 	public boolean addInterestTypeList(Map<String, Object> request) {
-		List<InterestTypeDto> types = (List<InterestTypeDto> ) request.get("types");
+		List<InterestTypeDto> types = (List<InterestTypeDto>) request.get("types");
 		String id = (String) request.get("id");
-
-		for (InterestTypeDto type : types ) {
+		
+		for (InterestTypeDto type: types) {
 			int res = interestTypeMapper.insertInterestType(new InterestTypeDto(id, type.getType()));
-
+			
 			if (res <= 0)
 				return false;
 		}
-
+		
 		return true;
 	}
 }
