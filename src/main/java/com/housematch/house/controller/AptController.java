@@ -35,7 +35,7 @@ public class AptController {
 
 	@ApiOperation(value = "동별 아파트 목록 조회")
 	@GetMapping
-	public ResponseEntity<?> getAptListByDong(@RequestParam(required = true) String dongCode) {
+	public ResponseEntity<?> getAptListByDong(@RequestParam String dongCode) {
 		return ResponseEntity.ok(aptInfoService.getAptListByDong(dongCode));
 	}
 
@@ -56,7 +56,7 @@ public class AptController {
 	public ResponseEntity<?> getAptDealRecordList(@PathVariable long aptCode,
 			@RequestParam(required = false) Integer pgno) {
 
-		Map<String, Object> conditions = new HashMap<String, Object>();
+		Map<String, Object> conditions = new HashMap<>();
 
 		if (pgno != null) {
 			conditions.put("pgno", pgno);
@@ -69,7 +69,7 @@ public class AptController {
 		List<AptDealRecordDto> deals = aptDealRecordService.getAptDealRecordListWithPage(conditions);
 		PageNavigation navigation = aptDealRecordService.makePageNavigation(conditions);
 		
-		Map<String, Object> response = new HashMap<String, Object>();
+		Map<String, Object> response = new HashMap<>();
 		response.put("deals", deals);
 		response.put("navigation", navigation);
 
@@ -79,7 +79,7 @@ public class AptController {
 	@ApiOperation(value = "basic + detail")
 	@GetMapping("/{aptCode}/all")
 	public ResponseEntity<?> getAptAll(@PathVariable long aptCode) {
-		Map<String, Object> apt = new HashMap<String, Object>();
+		Map<String, Object> apt = new HashMap<>();
 		apt.put("basic", aptInfoService.getAptInfo(aptCode));
 		apt.put("detail", aptDetailService.getAptDetail(aptCode));
 //		apt.put("deals", aptDealRecordService.getAptDealRecordList(aptCode));		

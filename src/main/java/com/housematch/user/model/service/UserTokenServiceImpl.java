@@ -18,7 +18,7 @@ public class UserTokenServiceImpl implements UserTokenService {
 	@Autowired
 	private SqlSession sqlSession;
 
-	private static String[] typeNames = { "", "교육", "환경", "안전", "교통", "생활" };
+	private static final String[] typeNames = { "", "교육", "환경", "안전", "교통", "생활" };
 
 	@Override
 	public UserDto login(UserDto userDto) throws Exception {
@@ -39,26 +39,26 @@ public class UserTokenServiceImpl implements UserTokenService {
 	}
 
 	@Override
-	public UserDto userInfo(String userid) throws Exception {
+	public UserDto userInfo(String userid) {
 		return sqlSession.getMapper(UserMapper.class).selectUserWithType(userid);
 	}
 
 	@Override
-	public void saveRefreshToken(String userid, String refreshToken) throws Exception {
-		Map<String, String> map = new HashMap<String, String>();
+	public void saveRefreshToken(String userid, String refreshToken) {
+		Map<String, String> map = new HashMap<>();
 		map.put("userid", userid);
 		map.put("token", refreshToken);
 		sqlSession.getMapper(UserTokenMapper.class).saveRefreshToken(map);
 	}
 
 	@Override
-	public Object getRefreshToken(String userid) throws Exception {
+	public Object getRefreshToken(String userid) {
 		return sqlSession.getMapper(UserTokenMapper.class).getRefreshToken(userid);
 	}
 
 	@Override
-	public void deleRefreshToken(String userid) throws Exception {
-		Map<String, String> map = new HashMap<String, String>();
+	public void deleRefreshToken(String userid) {
+		Map<String, String> map = new HashMap<>();
 		map.put("userid", userid);
 		map.put("token", null);
 		sqlSession.getMapper(UserTokenMapper.class).deleteRefreshToken(map);

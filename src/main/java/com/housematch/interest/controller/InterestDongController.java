@@ -46,7 +46,7 @@ public class InterestDongController {
 
 		if (user != null) {
 
-			Map<String, Object> conditions = new HashMap<String, Object>();
+			Map<String, Object> conditions = new HashMap<>();
 			conditions.put("userId", userId);
 
 			if (pgno != null) {
@@ -56,7 +56,7 @@ public class InterestDongController {
 			}
 
 			List<InterestDongDto> interestLocs = interestDongService.getInterestDongList(conditions);
-			Map<Integer, LocationDto> dongInfos = new HashMap<Integer, LocationDto>();
+			Map<Integer, LocationDto> dongInfos = new HashMap<>();
 			
 			for (int i = 0; i < interestLocs.size(); i++) {
 				InterestDongDto interestLoc = interestLocs.get(i);
@@ -70,7 +70,7 @@ public class InterestDongController {
 			
 			PageNavigation navigation = interestDongService.makePageNavigation(conditions);
 
-			Map<String, Object> response = new HashMap<String, Object>();
+			Map<String, Object> response = new HashMap<>();
 			response.put("interestLocs", interestLocs);
 			response.put("navigation", navigation);
 			response.put("dongInfos", dongInfos);
@@ -78,7 +78,7 @@ public class InterestDongController {
 			return ResponseEntity.ok(response);
 
 		} else {
-			return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
 		}
 	}
 
@@ -104,7 +104,7 @@ public class InterestDongController {
 			}
 
 		} else {
-			return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
 		}
 	}
 

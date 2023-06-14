@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.housematch.interest.model.dto.InterestAptDto;
 import com.housematch.interest.model.dto.InterestDongDto;
 
 @Mapper

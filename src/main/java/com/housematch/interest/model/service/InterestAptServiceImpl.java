@@ -27,7 +27,7 @@ public class InterestAptServiceImpl implements InterestAptService {
 	@Override
 	public List<InterestAptDto> getInterestAptList(Map<String, Object> conditions) {
 
-		Map<String, Object> param = new HashMap<String, Object>();
+		Map<String, Object> param = new HashMap<>();
 
 		String id = (String) conditions.get("userId");
 		int pgNo = (int) conditions.get("pgno");
@@ -73,7 +73,7 @@ public class InterestAptServiceImpl implements InterestAptService {
 		pageNavigation.setCurrentPage(currentPage);
 		pageNavigation.setNaviSize(naviSize);
 		
-		Map<String, Object> param = new HashMap<String, Object>();
+		Map<String, Object> param = new HashMap<>();
 //		String key = map.get("key");
 //		if ("userid".equals(key))
 //			key = "user_id";

@@ -1,6 +1,5 @@
 package com.housematch.admin.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +41,7 @@ public class QuestionController {
 	@GetMapping
 	public ResponseEntity<?> getQuestionList(@RequestParam(required = false) Integer pgno){
 		
-		Map<String, Object> conditions = new HashMap<String, Object>();
+		Map<String, Object> conditions = new HashMap<>();
 		
 		
 		
@@ -53,7 +52,7 @@ public class QuestionController {
 		}
 		
 		List<QuestionDto> questions = questionService.getQuestionList(conditions);
-		Map<Integer,QuestionReplyDto > replies = new HashMap<Integer, QuestionReplyDto>();
+		Map<Integer,QuestionReplyDto > replies = new HashMap<>();
 		
 		for (QuestionDto question : questions) {
 			QuestionReplyDto reply = questionReplyService.getQuestionReply(question.getNo());
@@ -66,7 +65,7 @@ public class QuestionController {
 		
 		PageNavigation navigation = questionService.makePageNavigation(conditions);
 		
-		Map<String, Object> response = new HashMap<String, Object>();
+		Map<String, Object> response = new HashMap<>();
 		response.put("questions", questions);
 		response.put("navigation", navigation);
 		response.put("replies", replies);
@@ -106,9 +105,8 @@ public class QuestionController {
 	public ResponseEntity<?> modifyQuestion(@PathVariable int no, @RequestBody QuestionDto request) {
 		
 		String userId = request.getUid();
-		QuestionDto questionDto = request;
-		
-		if(no != questionDto.getNo()) {
+
+		if(no != request.getNo()) {
 			return ResponseEntity.badRequest().build();
 		}
 		QuestionDto question = questionService.getQuestion(no);
@@ -116,10 +114,10 @@ public class QuestionController {
 		if (question != null) {
 			
 			if(!question.getUid().equals(userId)) {
-				return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+				return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
 			}
 			
-			boolean res = questionService.modifyQuestion(questionDto);
+			boolean res = questionService.modifyQuestion(request);
 
 			if (res) {
 				return ResponseEntity.ok(question);
@@ -136,11 +134,10 @@ public class QuestionController {
 	public ResponseEntity<?> removeAptReview(@PathVariable int no, @RequestBody QuestionDto request) {
 		
 		String userId = request.getUid();
-		QuestionDto questionDto = request;
-		
+
 		System.out.println(no);
-		System.out.println(questionDto.getNo());
-		if(no != questionDto.getNo()) {
+		System.out.println(request.getNo());
+		if(no != request.getNo()) {
 			return ResponseEntity.badRequest().build();
 		}
 	
@@ -149,7 +146,7 @@ public class QuestionController {
 		if (question != null) {
 
 			if(!question.getUid().equals(userId) || question.getUid().equals("admin")) {
-				return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+				return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
 			}
 			
 			boolean res = questionService.removeQuestion(no);

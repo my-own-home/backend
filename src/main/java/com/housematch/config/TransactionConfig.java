@@ -31,7 +31,7 @@ public class TransactionConfig {
 		txAttribute2.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 		txAttribute2.setReadOnly(true);
 
-		HashMap<String, TransactionAttribute> txMethods = new HashMap<String, TransactionAttribute>();
+		HashMap<String, TransactionAttribute> txMethods = new HashMap<>();
 		txMethods.put("register*", txAttribute);
 		txMethods.put("modify*", txAttribute);
 		txMethods.put("delete*", txAttribute);

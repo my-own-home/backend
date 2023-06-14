@@ -3,7 +3,6 @@ package com.housematch.interest.model.service;
 import java.util.List;
 import java.util.Map;
 
-import com.housematch.interest.model.dto.InterestAptDto;
 import com.housematch.interest.model.dto.InterestDongDto;
 import com.housematch.util.PageNavigation;
 

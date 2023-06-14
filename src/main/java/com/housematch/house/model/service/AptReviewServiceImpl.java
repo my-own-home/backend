@@ -66,7 +66,7 @@ public class AptReviewServiceImpl implements AptReviewService {
 
 		pageNavigation.setCurrentPage(currentPage);
 		pageNavigation.setNaviSize(naviSize);
-		Map<String, Object> param = new HashMap<String, Object>();
+		Map<String, Object> param = new HashMap<>();
 //		String key = map.get("key");
 //		if ("userid".equals(key))
 //			key = "user_id";
