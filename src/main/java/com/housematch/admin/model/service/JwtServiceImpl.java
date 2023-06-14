@@ -1,6 +1,6 @@
 package com.housematch.admin.model.service;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Map;
 
@@ -25,20 +25,18 @@ public class JwtServiceImpl implements JwtService {
 	public static final Logger logger = LoggerFactory.getLogger(JwtServiceImpl.class);
 
 	private static final String SALT = "HoUSeMAtch";
-	private static final int ACCESS_TOKEN_EXPIRE_MINUTES = 1; // 분단위
-	private static final int REFRESH_TOKEN_EXPIRE_MINUTES = 2; // 주단위
+	private static final long ACCESS_TOKEN_EXPIRE_MILLISECONDS = 60 * 1000L; // 1시간
+	private static final long REFRESH_TOKEN_EXPIRE_MILLISECONDS = 2 * 60 * 60 * 24 * 7 * 1000L; // 2주
 
 	@Override
 	public <T> String createAccessToken(String key, T data) {
-//		return create(key, data, "access-token", 1000 * 60 * ACCESS_TOKEN_EXPIRE_MINUTES);
-		return create(key, data, "access-token", 1000 * 10 * ACCESS_TOKEN_EXPIRE_MINUTES);
+		return create(key, data, "access-token", ACCESS_TOKEN_EXPIRE_MILLISECONDS);
 	}
 
-//	AccessToken에 비해 유효기간을 길게...
+	//	AccessToken에 비해 유효기간을 길게...
 	@Override
 	public <T> String createRefreshToken(String key, T data) {
-//		return create(key, data, "refresh-token", 1000 * 60 * 60 * 24 * 7 * REFRESH_TOKEN_EXPIRE_MINUTES);
-		return create(key, data, "refresh-token", 1000 * 30 * ACCESS_TOKEN_EXPIRE_MINUTES);
+		return create(key, data, "refresh-token", REFRESH_TOKEN_EXPIRE_MILLISECONDS);
 	}
 
 	//Token 발급
@@ -51,7 +49,7 @@ public class JwtServiceImpl implements JwtService {
 	 */
 	@Override
 	public <T> String create(String key, T data, String subject, long expire) {
-		String jwt = Jwts.builder()
+		return Jwts.builder()
 				// Header 설정 : 토큰의 타입, 해쉬 알고리즘 정보 세팅.
 				.setHeaderParam("typ", "JWT")
 				.setHeaderParam("regDate", System.currentTimeMillis()) // 생성 시간
@@ -62,24 +60,12 @@ public class JwtServiceImpl implements JwtService {
 				// Signature 설정 : secret key를 활용한 암호화.
 				.signWith(SignatureAlgorithm.HS256, this.generateKey())
 				.compact(); // 직렬화 처리.
-		return jwt;
 	}
 
 	// Signature 설정에 들어갈 key 생성.
 	private byte[] generateKey() {
-		byte[] key = null;
-		try {
-			// charset 설정 안하면 사용자 플랫폼의 기본 인코딩 설정으로 인코딩 됨.
-			key = SALT.getBytes("UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			if (logger.isInfoEnabled()) {
-				e.printStackTrace();
-			} else {
-				logger.error("Making JWT Key Error ::: {}", e.getMessage());
-			}
-		}
-
-		return key;
+		// charset 설정 안하면 사용자 플랫폼의 기본 인코딩 설정으로 인코딩 됨.
+		return SALT.getBytes(StandardCharsets.UTF_8);
 	}
 
 //	전달 받은 토큰이 제대로 생성된것인지 확인 하고 문제가 있다면 UnauthorizedException을 발생.
@@ -110,9 +96,9 @@ public class JwtServiceImpl implements JwtService {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
 				.getRequest();
 		String jwt = request.getHeader("access-token");
-		Jws<Claims> claims = null;
+		Jws<Claims> claims;
 		try {
-			claims = Jwts.parser().setSigningKey(SALT.getBytes("UTF-8")).parseClaimsJws(jwt);
+			claims = Jwts.parser().setSigningKey(SALT.getBytes(StandardCharsets.UTF_8)).parseClaimsJws(jwt);
 		} catch (Exception e) {
 //			if (logger.isInfoEnabled()) {
 //				e.printStackTrace();
