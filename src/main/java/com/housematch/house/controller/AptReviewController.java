@@ -42,7 +42,7 @@ public class AptReviewController {
 	@GetMapping
 	public ResponseEntity<?> getAptReviewList(@RequestParam(required = false) long aptCode,
 			@RequestParam(required = false) Integer pgno) {
-		Map<String, String> conditions = new HashMap<String, String>();
+		Map<String, String> conditions = new HashMap<>();
 
 		if (pgno != null) {
 			conditions.put("pgno", Integer.toString(pgno));
@@ -53,7 +53,7 @@ public class AptReviewController {
 		List<AptReviewDto> reviews = aptReviewService.getAptReviewList(aptCode);
 		PageNavigation navigation = aptReviewService.makePageNavigation(conditions);
 
-		Map<String, Object> response = new HashMap<String, Object>();
+		Map<String, Object> response = new HashMap<>();
 		response.put("reviews", reviews);
 		response.put("navigation", navigation);
 
@@ -64,7 +64,7 @@ public class AptReviewController {
 	@GetMapping("/user")
 	public ResponseEntity<?> getUserReviewList(@RequestParam(required = false) String uid,
 			@RequestParam(required = false) Integer pgno) {
-		Map<String, String> conditions = new HashMap<String, String>();
+		Map<String, String> conditions = new HashMap<>();
 
 		if (pgno != null) {
 			conditions.put("pgno", Integer.toString(pgno));
@@ -73,22 +73,18 @@ public class AptReviewController {
 		}
 
 		List<AptReviewDto> reviews = aptReviewService.getUserReviewList(uid);
-		List<String> aptNames = new ArrayList<String>();
+		List<String> aptNames = new ArrayList<>();
 
-		for (int i = 0; i < reviews.size(); i++) {
-			AptReviewDto review = reviews.get(i);
+		for (AptReviewDto review : reviews) {
 			AptInfoDto aptInfo = aptInfoService.getAptInfo(review.getAptCode());
-
 			String aptName = aptInfo.getAptName();
 
-			if (aptName != null) {
-				aptNames.add(aptName);
-			}
+			aptNames.add(aptName);
 		}
 
 		PageNavigation navigation = aptReviewService.makePageNavigation(conditions);
 
-		Map<String, Object> response = new HashMap<String, Object>();
+		Map<String, Object> response = new HashMap<>();
 		response.put("reviews", reviews);
 		response.put("navigation", navigation);
 		response.put("aptNames", aptNames);
@@ -127,9 +123,8 @@ public class AptReviewController {
 	public ResponseEntity<?> modifyAptReview(@PathVariable int no, @RequestBody AptReviewDto request) {
 
 		String userId = request.getUid();
-		AptReviewDto aptReviewDto = request;
 
-		if (no != aptReviewDto.getNo()) {
+		if (no != request.getNo()) {
 			return ResponseEntity.badRequest().build();
 		}
 
@@ -138,10 +133,10 @@ public class AptReviewController {
 		if (review != null) {
 
 			if (!review.getUid().equals(userId)) {
-				return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+				return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
 			}
 
-			boolean res = aptReviewService.modifyAptReview(aptReviewDto);
+			boolean res = aptReviewService.modifyAptReview(request);
 
 			if (res) {
 				return ResponseEntity.ok(review);
@@ -158,9 +153,8 @@ public class AptReviewController {
 	public ResponseEntity<?> removeAptReview(@PathVariable int no, @RequestParam AptReviewDto request) {
 
 		String userId = request.getUid();
-		AptReviewDto aptReviewDto = request;
 
-		if (no != aptReviewDto.getNo()) {
+		if (no != request.getNo()) {
 			return ResponseEntity.badRequest().build();
 		}
 
@@ -169,7 +163,7 @@ public class AptReviewController {
 		if (review != null) {
 
 			if (!review.getUid().equals(userId) || review.getUid().equals("admin")) {
-				return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+				return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
 			}
 
 			boolean res = aptReviewService.removeAptReview(no);
@@ -186,12 +180,12 @@ public class AptReviewController {
 
 	@ApiOperation(value = "리뷰 목록 조회")
 	@GetMapping("/avg")
-	public ResponseEntity<?> getAvgAptReview(@RequestParam(required = true) long aptCode) {
+	public ResponseEntity<?> getAvgAptReview(@RequestParam long aptCode) {
 		AptInfoDto aptInfo = aptInfoService.getAptInfo(aptCode);
 
 		if (aptInfo != null) {
 			AptReviewStatDto avg = aptReviewService.getAvgAptReview(aptCode);
-			Map<String, Double> response = new HashMap<String, Double>();
+			Map<String, Double> response = new HashMap<>();
 
 			if (avg != null) {
 				response.put("교육", avg.getScoreEdu());

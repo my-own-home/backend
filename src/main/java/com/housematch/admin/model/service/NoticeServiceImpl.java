@@ -23,7 +23,7 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public List<NoticeDto> getNoticeList(Map<String, Object> conditions) {
 
-		Map<String, Object> param = new HashMap<String, Object>();
+		Map<String, Object> param = new HashMap<>();
 		param.put("word", conditions.get("word") == null ? "" : conditions.get("word"));
 
 		int pgNo = (int) conditions.get("pgno");
@@ -46,7 +46,7 @@ public class NoticeServiceImpl implements NoticeService {
 		pageNavigation.setCurrentPage(currentPage);
 		pageNavigation.setNaviSize(naviSize);
 
-		Map<String, Object> param = new HashMap<String, Object>();
+		Map<String, Object> param = new HashMap<>();
 		param.put("word", conditions.get("word") == null ? "" : conditions.get("word"));
 
 		int totalCount = noticeMapper.getTotalNoticeCount(param);

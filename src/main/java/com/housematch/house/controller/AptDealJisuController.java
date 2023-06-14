@@ -30,7 +30,7 @@ public class AptDealJisuController {
 
 		AptDealJisuDto dealJisu = aptDealJisuService.getAptDealJisuList(loc);
 
-		Map<String, Object> response = new HashMap<String, Object>();
+		Map<String, Object> response = new HashMap<>();
 		response.put("dealJisu", dealJisu);
 
 		return ResponseEntity.ok(response);

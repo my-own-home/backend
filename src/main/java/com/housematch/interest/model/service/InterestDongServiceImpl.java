@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.housematch.interest.model.dto.InterestAptDto;
 import com.housematch.interest.model.dto.InterestDongDto;
 import com.housematch.interest.model.mapper.InterestDongMapper;
 import com.housematch.util.PageNavigation;
@@ -29,7 +28,7 @@ public class InterestDongServiceImpl implements InterestDongService {
 	@Override
 	public List<InterestDongDto> getInterestDongList(Map<String, Object> conditions) {
 
-		Map<String, Object> param = new HashMap<String, Object>();
+		Map<String, Object> param = new HashMap<>();
 
 		String id = (String) conditions.get("userId");
 		int pgNo = (int) conditions.get("pgno");
@@ -75,7 +74,7 @@ public class InterestDongServiceImpl implements InterestDongService {
 		pageNavigation.setCurrentPage(currentPage);
 		pageNavigation.setNaviSize(naviSize);
 
-		Map<String, Object> param = new HashMap<String, Object>();
+		Map<String, Object> param = new HashMap<>();
 //		String key = map.get("key");
 //		if ("userid".equals(key))
 //			key = "user_id";

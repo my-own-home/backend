@@ -20,5 +20,6 @@ public class AptInfoDto {
 	private int buildYear;
 	private String fullRoadAddress;
 	private String fullJibunAddress;
-	private String lat, lng;
+	private String lat;
+	private String lng;
 }

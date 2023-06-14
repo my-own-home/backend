@@ -32,7 +32,7 @@ public class InterestTypeController {
 		if (user != null) {
 			return ResponseEntity.ok(interestTypeService.getInterestTypeList(userId));
 		} else {
-			return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
 		}
 
 	}

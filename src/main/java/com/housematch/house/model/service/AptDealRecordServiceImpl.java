@@ -29,7 +29,7 @@ public class AptDealRecordServiceImpl implements AptDealRecordService {
 
 	@Override
 	public List<AptDealRecordDto> getAptDealRecordListWithPage(Map<String, Object> conditions) {
-		Map<String, Object> param = new HashMap<String, Object>();
+		Map<String, Object> param = new HashMap<>();
 		int pgNo = (int) conditions.get("pgno");
 		int start = pgNo * SizeConstant.LIST_SIZE - SizeConstant.LIST_SIZE;
 
@@ -72,10 +72,10 @@ public class AptDealRecordServiceImpl implements AptDealRecordService {
 		List<AptDealRecordStatDto> records = aptDealRecordMapper.selectAptDealMonthlyAvgByArea(aptCode);
 		List<String> areas = aptDealRecordMapper.getAptAreas(aptCode);
 
-		Map<String, List<AptDealRecordStatDto>> ordered = new HashMap<String, List<AptDealRecordStatDto>>();
+		Map<String, List<AptDealRecordStatDto>> ordered = new HashMap<>();
 
 		for (String area : areas) {
-			ordered.put(area, new ArrayList<AptDealRecordStatDto>());
+			ordered.put(area, new ArrayList<>());
 		}
 
 		for (AptDealRecordStatDto record : records) {

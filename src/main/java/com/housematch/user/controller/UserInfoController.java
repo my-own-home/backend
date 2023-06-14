@@ -3,8 +3,6 @@ package com.housematch.user.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,10 +25,6 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/api/user/info")
 @Api(value = "사용자 Controller")
 public class UserInfoController {
-
-	public static final Logger logger = LoggerFactory.getLogger(UserInfoController.class);
-	private static final String SUCCESS = "success";
-	private static final String FAIL = "fail";
 
 	@Autowired
 	private UserService userService;
@@ -71,7 +65,7 @@ public class UserInfoController {
 
 		if (res) {
 
-			Map<String, Object> request = new HashMap<String, Object>();
+			Map<String, Object> request = new HashMap<>();
 			request.put("id", userDto.getId());
 			request.put("types", userDto.getTypes());
 			interestTypeService.addInterestTypeList(request);

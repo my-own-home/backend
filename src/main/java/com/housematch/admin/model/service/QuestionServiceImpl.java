@@ -55,7 +55,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 		pageNavigation.setCurrentPage(currentPage);
 		pageNavigation.setNaviSize(naviSize);
-		Map<String, Object> param = new HashMap<String, Object>();
+		Map<String, Object> param = new HashMap<>();
 		param.put("word", map.get("word") == null ? "" : map.get("word"));
 		int totalCount = questionMapper.getTotalQuestionCount(param);
 		pageNavigation.setTotalCount(totalCount);

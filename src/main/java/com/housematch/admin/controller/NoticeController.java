@@ -37,7 +37,7 @@ public class NoticeController {
 	public ResponseEntity<?> getNoticeList(@RequestParam(required = false) String subject,
 			@RequestParam(required = false) Integer pgno) {
 
-		Map<String, Object> conditions = new HashMap<String, Object>();
+		Map<String, Object> conditions = new HashMap<>();
 
 		if (subject != null) {
 			conditions.put("word", subject);
@@ -52,7 +52,7 @@ public class NoticeController {
 		List<NoticeDto> notices = noticeService.getNoticeList(conditions);
 		PageNavigation navigation = noticeService.makePageNavigation(conditions);
 
-		Map<String, Object> response = new HashMap<String, Object>();
+		Map<String, Object> response = new HashMap<>();
 		response.put("notices", notices);
 		response.put("navigation", navigation);
 
@@ -102,7 +102,7 @@ public class NoticeController {
 		if (notice != null) {
 
 			if (!notice.getUid().equals(userId)) {
-				return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+				return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
 			}
 
 			boolean res = noticeService.modifyNotice(noticeDto);
@@ -129,7 +129,7 @@ public class NoticeController {
 		if (notice != null) {
 
 			if (!notice.getUid().equals(userId)) {
-				return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+				return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
 			}
 
 			boolean res = noticeService.removeNotice(no);

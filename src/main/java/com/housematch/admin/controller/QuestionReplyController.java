@@ -33,11 +33,11 @@ public class QuestionReplyController {
 	
 	@ApiOperation(value = "q&a 대답 조회")
 	@GetMapping
-	public ResponseEntity<?> getquestionReplyList(@RequestParam(required = true) int qNo) {
+	public ResponseEntity<?> getquestionReplyList(@RequestParam int qNo) {
 
 		List<QuestionReplyDto> replies = questionReplyService.getQuestionReplyList(qNo);
 
-		Map<String, Object> response = new HashMap<String, Object>();
+		Map<String, Object> response = new HashMap<>();
 		response.put("replies", replies);
 
 		return ResponseEntity.ok(response);
@@ -75,9 +75,8 @@ public class QuestionReplyController {
 	public ResponseEntity<?> modifyAptReview(@PathVariable int qNo, @RequestBody QuestionReplyDto request) {
 		
 		String userId = request.getUid();
-		QuestionReplyDto questionReplyDto = request;
-		
-		if(qNo != questionReplyDto.getQNo()) {
+
+		if(qNo != request.getQNo()) {
 			return ResponseEntity.badRequest().build();
 		}
 		
@@ -86,10 +85,10 @@ public class QuestionReplyController {
 		if (reply != null) {
 			
 			if(!reply.getUid().equals(userId)) {
-				return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+				return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
 			}
 			
-			boolean res = questionReplyService.modifyQuestionReply(questionReplyDto);
+			boolean res = questionReplyService.modifyQuestionReply(request);
 
 			if (res) {
 				return ResponseEntity.ok(reply);
@@ -106,9 +105,8 @@ public class QuestionReplyController {
 	public ResponseEntity<?> removeQuestionReply(@PathVariable int qNo, @RequestBody QuestionReplyDto request) {
 		
 		String userId = request.getUid();
-		QuestionReplyDto questionReplyDto = request;
-		
-		if(qNo != questionReplyDto.getQNo()) {
+
+		if(qNo != request.getQNo()) {
 			return ResponseEntity.badRequest().build();
 		}
 		
@@ -117,7 +115,7 @@ public class QuestionReplyController {
 		if (reply != null) {
 			
 			if(!reply.getUid().equals(userId)) {
-				return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+				return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
 			}
 			
 			boolean res = questionReplyService.removeQuestionReply(reply.getRNo());

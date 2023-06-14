@@ -24,10 +24,12 @@ import com.housematch.user.model.service.UserTokenService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/user")
 @Api("사용자 컨트롤러  API V1")
+@Slf4j
 public class UserTokenController {
 
 	public static final Logger logger = LoggerFactory.getLogger(UserTokenController.class);
@@ -45,13 +47,13 @@ public class UserTokenController {
 	public ResponseEntity<Map<String, Object>> login(
 			@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) UserDto userDto) {
 		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = null;
+		HttpStatus status;
 		try {
 			UserDto loginUser = userTokenService.login(userDto);
 
 			if (loginUser != null) {
 				String accessToken = jwtService.createAccessToken("userid", loginUser.getId());// key, data
-				System.out.println(accessToken);
+				log.debug("UserTokenController:login: access token {}", accessToken);
 				String refreshToken = jwtService.createRefreshToken("userid", loginUser.getId());// key, data
 				userTokenService.saveRefreshToken(userDto.getId(), refreshToken);
 				logger.debug("로그인 accessToken 정보 : {}", accessToken);
@@ -65,11 +67,11 @@ public class UserTokenController {
 				status = HttpStatus.ACCEPTED;
 			}
 		} catch (Exception e) {
-			logger.error("로그인 실패 : {}", e);
+			logger.error("로그인 실패 : {}", e.getMessage());
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		return new ResponseEntity<>(resultMap, status);
 	}
 
 	@ApiOperation(value = "회원인증", notes = "회원 정보를 담은 Token을 반환한다.", response = Map.class)
@@ -79,19 +81,18 @@ public class UserTokenController {
 			HttpServletRequest request) {
 		logger.debug("userid : {} ", userid);
 		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = HttpStatus.UNAUTHORIZED;
+		HttpStatus status;
 		if (jwtService.checkToken(request.getHeader("access-token"))) {
 			logger.info("사용 가능한 토큰!!!");
 			try {
 //				로그인 사용자 정보.
 				UserDto userDto = userTokenService.userInfo(userid);
-				
-				System.out.println(userDto);
+				log.debug("UserTokenController:getInfo: userDto {}", userDto);
 				resultMap.put("userInfo", userDto);
 				resultMap.put("message", SUCCESS);
 				status = HttpStatus.ACCEPTED;
 			} catch (Exception e) {
-				logger.error("정보조회 실패 : {}", e);
+				logger.error("정보조회 실패 : {}", e.getMessage());
 				resultMap.put("message", e.getMessage());
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
 			}
@@ -100,24 +101,24 @@ public class UserTokenController {
 			resultMap.put("message", FAIL);
 			status = HttpStatus.UNAUTHORIZED;
 		}
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		return new ResponseEntity<>(resultMap, status);
 	}
 
 	@ApiOperation(value = "로그아웃", notes = "회원 정보를 담은 Token을 제거한다.", response = Map.class)
 	@GetMapping("/logout/{userid}")
 	public ResponseEntity<?> removeToken(@PathVariable("userid") String userid) {
 		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = HttpStatus.ACCEPTED;
+		HttpStatus status;
 		try {
 			userTokenService.deleRefreshToken(userid);
 			resultMap.put("message", SUCCESS);
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
-			logger.error("로그아웃 실패 : {}", e);
+			logger.error("로그아웃 실패 : {}", e.getMessage());
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		return new ResponseEntity<>(resultMap, status);
 
 	}
 
@@ -135,13 +136,12 @@ public class UserTokenController {
 				logger.debug("정상적으로 액세스토큰 재발급!!!");
 				resultMap.put("access-token", accessToken);
 				resultMap.put("message", SUCCESS);
-				status = HttpStatus.ACCEPTED;
 			}
 		} else {
 			logger.debug("리프레쉬토큰도 사용불!!!!!!!");
 			status = HttpStatus.UNAUTHORIZED;
 		}
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		return new ResponseEntity<>(resultMap, status);
 	}
 
 }
