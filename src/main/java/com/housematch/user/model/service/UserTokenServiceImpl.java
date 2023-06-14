@@ -12,7 +12,10 @@ import com.housematch.user.model.dto.UserDto;
 import com.housematch.user.model.mapper.UserMapper;
 import com.housematch.user.model.mapper.UserTokenMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class UserTokenServiceImpl implements UserTokenService {
 
 	@Autowired
@@ -31,7 +34,7 @@ public class UserTokenServiceImpl implements UserTokenService {
 			for (InterestTypeDto type : ans.getTypes()) {
 				type.setTypeName(typeNames[type.getType()]);
 			}
-			System.out.println(ans);
+			log.debug("UserTokenServiceImpl:login: userDto {}", ans);
 			return ans;
 		}
 

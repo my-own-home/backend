@@ -25,10 +25,12 @@ import com.housematch.util.PageNavigation;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/qnas")
 @Api(value = "q&a 질문 Controller")
+@Slf4j
 public class QuestionController {
 	
 	@Autowired
@@ -42,9 +44,7 @@ public class QuestionController {
 	public ResponseEntity<?> getQuestionList(@RequestParam(required = false) Integer pgno){
 		
 		Map<String, Object> conditions = new HashMap<>();
-		
-		
-		
+
 		if (pgno != null) {
 			conditions.put("pgno", pgno);
 		} else {
@@ -135,8 +135,8 @@ public class QuestionController {
 		
 		String userId = request.getUid();
 
-		System.out.println(no);
-		System.out.println(request.getNo());
+		log.debug("QuestionController:removeAptReview: Path Variable no {}", no);
+		log.debug("QuestionController:removeAptReview: QnA no {}", request.getNo());
 		if(no != request.getNo()) {
 			return ResponseEntity.badRequest().build();
 		}

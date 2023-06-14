@@ -24,10 +24,12 @@ import com.housematch.user.model.service.UserTokenService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/user")
 @Api("사용자 컨트롤러  API V1")
+@Slf4j
 public class UserTokenController {
 
 	public static final Logger logger = LoggerFactory.getLogger(UserTokenController.class);
@@ -51,7 +53,7 @@ public class UserTokenController {
 
 			if (loginUser != null) {
 				String accessToken = jwtService.createAccessToken("userid", loginUser.getId());// key, data
-				System.out.println(accessToken);
+				log.debug("UserTokenController:login: access token {}", accessToken);
 				String refreshToken = jwtService.createRefreshToken("userid", loginUser.getId());// key, data
 				userTokenService.saveRefreshToken(userDto.getId(), refreshToken);
 				logger.debug("로그인 accessToken 정보 : {}", accessToken);
@@ -85,8 +87,7 @@ public class UserTokenController {
 			try {
 //				로그인 사용자 정보.
 				UserDto userDto = userTokenService.userInfo(userid);
-				
-				System.out.println(userDto);
+				log.debug("UserTokenController:getInfo: userDto {}", userDto);
 				resultMap.put("userInfo", userDto);
 				resultMap.put("message", SUCCESS);
 				status = HttpStatus.ACCEPTED;
